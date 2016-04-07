@@ -9,6 +9,8 @@
 * less
 * less-loader
 
+For styles file. support `.css` & `.less`.
+
 ###Installation
 
 ```
@@ -21,6 +23,6 @@ npm i
 
 ###Running the demo
 
-To run the demo, just type `npm dev` in terminal, and then open your browser to visit `127.0.0.1:8080`.
+To run the demo, just type `npm run dev` in terminal, and then open your browser to visit `127.0.0.1:8080`.
 
-Running `npm build` in terminal will package your project.
+Running `npm run build` in terminal will package your project.

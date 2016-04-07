@@ -15,23 +15,23 @@ module.exports = {
         publicPath: path.resolve(__dirname, './assets')
     },
 
-    resolve: {
-        extensions: extensions
-    },
+    watch: true,
 
     module: {
         loaders: [{
             test: /\.css$/,
-            loader: 'style!css'
+            loader: 'style-loader!css-loader'
         }, {
             test: /\.less$/,
-            loader: 'style!css!less'
+            loader: 'style-loader!css-loader!less-loader'
         }, {
-            babel: {
-                test: /\.jsx?$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: 'babel?optional[]=runtime&loose=all'
-            }
+            test: /\.jsx?$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader'
         }]
+    },
+
+    resolve: {
+        extensions: extensions
     }
 };
