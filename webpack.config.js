@@ -24,6 +24,11 @@ module.exports = {
     watch: true,
 
     module: {
+        preLoaders: [{
+            test: /\.js$/,
+            loader: "eslint-loader?{rules:{semi:0}}",
+            exclude: /node_modules/
+        }],
         loaders: [{
             test: /\.css$/,
             loader: 'style!css'
@@ -36,6 +41,11 @@ module.exports = {
             exclude: /node_modules/,
             loader: 'babel'
         }]
+    },
+
+    eslint: {
+        failOnWarning: false,
+        failOnError: true
     },
 
     resolve: {

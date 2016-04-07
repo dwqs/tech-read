@@ -9,7 +9,7 @@ import Hello from './hello';
 
 require('./index.less');
 
-window.onload = function() {
+window.onload = function () {
     ReactDOM.render(
         <Hello />,
         document.getElementById('demo')
