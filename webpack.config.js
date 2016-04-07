@@ -3,37 +3,47 @@
  */
 
 var path = require('path');
+var webpack = require("webpack");
 
 var extensions = ['','.js','.json'];
 
 module.exports = {
     entry: path.resolve(__dirname, './demo/index.js'),
+    // entry: {
+    //     index: './demo/index.js'   可以有多个入口文件
+    // },
 
     output: {
+        //filename: '[name].[chunkhash].js',  chunkhash<==>hash  二者不同时使用
         filename: 'bundle.js',
-        path: path.resolve(__dirname, './dist'), //path for client visited
-        publicPath: path.resolve(__dirname, './assets')  //path for server visited
+        path: path.resolve(__dirname, './dist'), //webpack打包后存放的绝对路径
+        publicPath: path.resolve(__dirname, './assets')  //webpack打包后在服务器上的路径
     },
 
-    //watching the entry files change
+    //监听文件  webpack --watch
     watch: true,
 
     module: {
         loaders: [{
             test: /\.css$/,
-            loader: 'style-loader!css-loader'
+            loader: 'style!css'
             //loaders: ['style', 'css']
         }, {
             test: /\.less$/,
-            loader: 'style-loader!css-loader!less-loader'
+            loader: 'style!css!less'
         }, {
             test: /\.jsx?$/,
             exclude: /node_modules/,
-            loader: 'babel-loader'
+            loader: 'babel'
         }]
     },
 
     resolve: {
         extensions: extensions
-    }
+    },
+
+    plugins: [
+        new webpack.optimize.DedupePlugin()  //避免重复打包
+        //new webpack.optimize.UglifyJsPlugin()  压缩
+    ]
 };

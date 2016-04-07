@@ -4,8 +4,8 @@
   "author": "pomy",
   "version": "0.0.1",
   "scripts": {
-    "build": "webpack --display-error-details",
-    "dev": "webpack-dev-server --devtool eval --progress --colors"
+    "build": "webpack --progress --display-error-details",
+    "dev": "webpack-dev-server --quiet"
   },
   "repository": {
     "type": "git",
