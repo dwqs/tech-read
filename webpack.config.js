@@ -11,16 +11,18 @@ module.exports = {
 
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, './dist'),
-        publicPath: path.resolve(__dirname, './assets')
+        path: path.resolve(__dirname, './dist'), //path for client visited
+        publicPath: path.resolve(__dirname, './assets')  //path for server visited
     },
 
+    //watching the entry files change
     watch: true,
 
     module: {
         loaders: [{
             test: /\.css$/,
             loader: 'style-loader!css-loader'
+            //loaders: ['style', 'css']
         }, {
             test: /\.less$/,
             loader: 'style-loader!css-loader!less-loader'
