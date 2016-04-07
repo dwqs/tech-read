@@ -9,7 +9,7 @@
 * less
 * less-loader
 
-For styles file. support `.css` & `.less`.
+If you prefer writing pure css, and you can delete the less & less-loader dependencies.
 
 ###Installation
 
