@@ -2,12 +2,11 @@
 
 * Webpack
 * Webpack-dev-server
-* Babel-core
 * Babel
 * css-loader
 * style-loader
-* less
 * less-loader
+* eslint-loader
 
 If you prefer writing pure css, and you can delete the less & less-loader dependencies.
 
