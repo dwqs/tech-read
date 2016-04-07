@@ -2,17 +2,14 @@
  * Created by pomy on 16/4/7.
  */
 
+'use strict';
+
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
-import Hello from './hello';
-
-require('./index.less');
-
 window.onload = function () {
     ReactDOM.render(
-        <Hello />,
-        document.getElementById('demo')
+        <div className="tecg-read">tech-read</div>,
+        document.getElementById('tech-read-container')
     );
 };
-
