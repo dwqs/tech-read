@@ -8,10 +8,11 @@ import ReactDOM from 'react-dom';
 import Hello from './hello';
 
 require('./index.less');
+require('./reset.less');
 
 window.onload = function () {
     ReactDOM.render(
-        <Hello />,
+        <Hello name="pomy"/>,
         document.getElementById('demo')
     );
 };

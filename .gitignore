@@ -1,6 +1,7 @@
 .idea/
 
 node_modules
+public/assets/
 assets
 dist
 npm-debug.log

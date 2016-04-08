@@ -5,10 +5,11 @@
 var path = require('path');
 var webpack = require("webpack");
 
-var extensions = ['','.js','.json'];
+//webpack的搜索文件后缀
+var extensions = ['','.js'];
 
 module.exports = {
-    entry: path.resolve(__dirname, './demo/index.js'),
+    entry: path.resolve(__dirname, '../client/index.js'),
     // entry: {
     //     index: './demo/index.js'   可以有多个入口文件
     // },
@@ -16,8 +17,8 @@ module.exports = {
     output: {
         //filename: '[name].[chunkhash].js',  chunkhash<==>hash  二者不同时使用
         filename: 'bundle.js',
-        path: path.resolve(__dirname, './dist'), //webpack打包后存放的绝对路径
-        publicPath: path.resolve(__dirname, './assets')  //webpack打包后在服务器上的路径
+        path: path.resolve(__dirname, '../public/assets/'), //webpack打包后存放的绝对路径
+        publicPath: path.resolve(__dirname, '/assets/')  //webpack打包后在服务器上的路径
     },
 
     //监听文件  webpack --watch
@@ -53,7 +54,11 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.optimize.DedupePlugin()  //避免重复打包
-        //new webpack.optimize.UglifyJsPlugin()  压缩
+        new webpack.optimize.DedupePlugin(),  //避免重复打包
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })                                    //压缩
     ]
 };

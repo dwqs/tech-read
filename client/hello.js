@@ -13,7 +13,7 @@ export default class Hello extends Component{
 
     render () {
         return (
-            <div>Hello World</div>
+            <div>Hello, this is {this.props.name}</div>
         );
     }
 }
