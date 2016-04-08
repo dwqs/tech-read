@@ -5,19 +5,16 @@
 var path = require('path');
 var webpack = require("webpack");
 
-var extensions = ['','.js','.json'];
+var extensions = ['','.js'];
 
 module.exports = {
-    entry: path.resolve(__dirname, './src/pages/tech-read.js'),
+    entry: path.resolve(__dirname, '../client/tech-read.js'),
 
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, './dist'), //webpack打包后存放的绝对路径
-        publicPath: path.resolve(__dirname, './assets')  //webpack打包后在服务器上的路径
+        path: path.resolve(__dirname, '../public/assets/'), //webpack打包后存放的绝对路径
+        publicPath: path.resolve(__dirname, '/assets/')  //webpack打包后在服务器上的路径
     },
-
-    //监听文件  webpack --watch
-    watch: true,
 
     module: {
         preLoaders: [{
@@ -48,6 +45,11 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.optimize.DedupePlugin()
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
     ]
 };
