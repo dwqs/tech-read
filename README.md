@@ -1,12 +1,8 @@
 ###Main devDependencies
 
 * Webpack
-* Webpack-dev-server
+* Koa
 * Babel
-* css-loader
-* style-loader
-* less-loader
-* eslint-loader
 
 If you prefer writing pure css, and you can delete the less & less-loader dependencies.
 
@@ -22,6 +18,6 @@ npm i
 
 ###Running the demo
 
-To run the demo, just type `npm run dev` in terminal, and then open your browser to visit `127.0.0.1:8080`.
+To run the demo, type `npm run build` && `npm start` in terminal, and then open your browser to visit `127.0.0.1:9000`.
 
 Running `npm run build` in terminal will package your project.
