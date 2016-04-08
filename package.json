@@ -1,23 +1,23 @@
 {
-  "name": "web-fe-dev",
-  "description": "Simple front-end development scaffolding helper",
+  "name": "tech-read",
+  "description": "Collection tech articles daily from UGC communities",
   "author": "pomy",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
-    "build": "webpack --config ./config/webpack.config.js  --progress --display-error-details",
+    "build": "webpack --config ./config/webpack.config.js -w --progress --display-error-details",
     "start": "node --harmony ./server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dwqs/web-fe-dev.git"
+    "url": "https://github.com/dwqs/tech-read.git"
   },
   "license": "MIT",
   "keywords": [
-    "web-fe-dev",
-    "webpack",
-    "react",
-    "scaffolding"
+    "tech-read",
+    "programmer",
+    "UGC",
+    "programming"
   ],
   "devDependencies": {
     "babel": "5.8.29",
