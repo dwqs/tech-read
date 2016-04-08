@@ -2,7 +2,8 @@
 
 * Webpack
 * Koa
-* Babel
+* Babel/babel-loader
+* Less/less-loader
 
 If you prefer writing pure css, and you can delete the less & less-loader dependencies.
 
