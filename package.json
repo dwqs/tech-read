@@ -35,6 +35,7 @@
   "dependencies": {
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
+    "flux": "^2.1.1",
     "co-views": "^0.2.0",
     "koa": "^0.20.0",
     "koa-bodyparser": "^2.0.1",

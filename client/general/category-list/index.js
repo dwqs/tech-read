@@ -1,0 +1,76 @@
+/**
+ * Created by pomy on 16/4/9.
+ */
+
+'use strict';
+
+import './index.less';
+
+import React, {Component} from 'react';
+
+import {$,_} from '../../lib/base';
+
+import {TechReadActions} from '../../stores/tech-read-actions';
+import {TechReadStore} from '../../stores/tech-read-store';
+
+let techReadActions = new TechReadActions();
+let techReadStore = new TechReadStore();
+
+export default class CategoryList extends Component {
+
+    constructor (){
+        super ();
+    }
+
+    selectCategory (e){
+        e.stopPropagation();
+        e.preventDefault();
+
+        //本地化
+        localStorage.setItem('category_id', Number($(e.target).data('id')));
+        localStorage.setItem('category_url', $(e.target).data('url'));
+
+        $(e.target).addClass('active').siblings().removeClass('active');
+
+        techReadActions.changeCategoryAction({
+            id: Number($(e.target).data('id')),
+            url: $(e.target).data('url')
+        });
+    }
+
+    componentWillUnmount (){
+        techReadActions = null;
+        techReadStore = null;
+    }
+
+    renderCategoryList (){
+        let categoryList = [];
+        let activeClass = '';
+        let store = techReadStore.getTectReadStore();
+
+        _.forEach(store.lists, (item) => {
+            activeClass=store.category.id === item.id ? 'active' : '';
+            categoryList.push(
+                <li className={activeClass} key={item.id} data-id={item.id} data-url={item.url}>
+                    {item.title}
+                </li>
+            );
+        });
+
+        return categoryList;
+    }
+
+    render (){
+        let categoryList = this.renderCategoryList();
+
+        return (
+            <div className="category-list">
+                <div className="lists">
+                    <ul onClick={this.selectCategory.bind(this)}>
+                        {categoryList}
+                    </ul>
+                </div>
+            </div>
+        );
+    }
+}

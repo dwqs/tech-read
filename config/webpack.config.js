@@ -8,7 +8,7 @@ var webpack = require("webpack");
 var extensions = ['','.js'];
 
 module.exports = {
-    entry: path.resolve(__dirname, '../client/tech-read.js'),
+    entry: path.resolve(__dirname, '../client/pages/index.js'),
 
     output: {
         filename: 'bundle.js',

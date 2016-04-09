@@ -1,0 +1,32 @@
+.category-list{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 180px;
+    height: 100%;
+    box-sizing: border-box;
+    border: 1px solid blue;
+}
+
+.lists{
+    height: 100%;
+    font-family: '冬青黑体简体中文','Hiragino Sans GB','Tahama','Microsoft YaHei';
+    color: #0087ee;
+    li{
+        height: 44px;
+        box-sizing: border-box;
+        text-align: center;
+        line-height: 44px;
+        cursor: pointer;
+        background: #fff;
+        transition: all .3s ease-in-out;
+        &:hover{
+            color: #fff;
+            background: #0087ee;
+        }
+        &.active{
+            color: #fff;
+            background: #0087ee;
+        }
+    }
+}
