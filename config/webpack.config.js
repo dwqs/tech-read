@@ -3,7 +3,7 @@
  */
 
 var path = require('path');
-var webpack = require("webpack");
+var webpack = require('webpack');
 
 var extensions = ['','.js'];
 
@@ -19,7 +19,7 @@ module.exports = {
     module: {
         preLoaders: [{
             test: /\.js$/,
-            loader: "eslint-loader?{rules:{semi:0}}",
+            loader: 'eslint-loader?{rules:{semi:0}}',
             exclude: /node_modules/
         }],
         loaders: [{
