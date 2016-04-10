@@ -37,6 +37,27 @@ export default class TouTiaoContent extends Component {
         });
     }
 
+    listener (originUrl){
+        return (e) => {
+            e.stopPropagation();
+
+            let initHeaders = new Headers({
+                'X-Custom-Header': originUrl
+            });
+
+            //mode:'no-cors'  不跨域
+            fetch('/toutiao/article',{
+                headers:initHeaders
+            }).then((response) => {
+                return response.json();
+            },(err)=>{
+                console.log('error',err);
+            }).then((json) => {
+                console.log('ssssss1111',json);
+            });
+        };
+    }
+
     renderPostList () {
         let posts = [];
         let postId = -1;
@@ -53,10 +74,10 @@ export default class TouTiaoContent extends Component {
             let subjectText = div.find('.subject-name a').text();
 
             posts.push(
-                <div className="post" key={++postId}>
+                <div className="post" key={++postId} onClick={this.listener(originUrl)}>
                     <div className="content">
                         <h3 className="title">
-                            <a target="_blank" href={originUrl}>{title}</a>
+                            <a href={originUrl}>{title}</a>
                         </h3>
                         <div className="meta">{meta}</div>
                     </div>
