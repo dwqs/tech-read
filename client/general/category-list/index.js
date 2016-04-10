@@ -32,10 +32,14 @@ export default class CategoryList extends Component {
 
         $(e.target).addClass('active').siblings().removeClass('active');
 
-        techReadActions.changeCategoryAction({
+        let newCategory = {
             id: Number($(e.target).data('id')),
             url: $(e.target).data('url')
-        });
+        };
+
+        techReadActions.changeCategoryAction(newCategory);
+
+        this.props.update(newCategory);
     }
 
     componentWillUnmount (){

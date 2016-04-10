@@ -1,13 +1,26 @@
 .category-content{
     position: absolute;
     top: 0;
-    left: 210px;
-    width: 750px;
+    left: 180px;
+    width: 780px;
     height: 100%;
     box-sizing: border-box;
-    border: 1px solid green;
 }
 
 .contents{
-    font-family: '冬青黑体简体中文','Hiragino Sans GB','Tahama','Microsoft YaHei';
+    position: absolute;
+    left: 10px;
+    width: 770px;
+    height: 100%;
+    box-sizing: border-box;
+    &>div{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        overflow-y: auto;
+        font-family: '冬青黑体简体中文','Hiragino Sans GB','Tahama','Microsoft YaHei';
+        border: 1px solid #0087ee;
+    }
 }
