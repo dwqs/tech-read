@@ -5,7 +5,7 @@
 var path = require('path');
 var webpack = require('webpack');
 
-var extensions = ['','.js'];
+var extensions = ['','.js','.jsx'];
 
 module.exports = {
     entry: path.resolve(__dirname, '../client/pages/index.js'),
@@ -46,6 +46,7 @@ module.exports = {
 
     plugins: [
         new webpack.optimize.DedupePlugin(),
+        new webpack.NoErrorsPlugin(),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
