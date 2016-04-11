@@ -53,7 +53,9 @@ export default class TouTiaoContent extends Component {
             },(err)=>{
                 console.log('error',err);
             }).then((json) => {
-                console.log('ssssss1111',json);
+                if(json.url){
+                    this.props.open(json.url);
+                }
             });
         };
     }
