@@ -4,9 +4,11 @@
 
 'use strict';
 
-var request = require('request');
+let request = require('request');
+//let coRequest = require('co-request');
 
-var render = require('./render');
+let render = require('./render');
+let requestPromise = require('./lib');
 
 let reponseBody = '404 not found';
 
@@ -32,14 +34,20 @@ function* toutiaoArticle() {
     this.response.set("Content-Type", "application/json;charset=utf-8");
 
     let origin = this.request.get('x-custom-header');
-    let url = '';
 
-    request.get(origin).on('response', (res) => {
-        console.log('qqqq',res.client._httpMessage.path,res.client._httpMessage._headers.host);
-        url = res.client._httpMessage._headers.host + res.client._httpMessage.path;
-        console.log('ssss',url);
+    /**
+     *  异步请求同步: Generator 和 Promise
+     *  用 request 请求时,没法同步,但可以用 Promise封装了,见 requestPromise
+     *  另外就是利用 co-request 看了源码后 也是用 Promise 进行 polyfill
+     *  let result = yield coRequest(origin);
+        url = result.client._httpMessage._headers.host + result.client._httpMessage.path;
+     *  另一个点是 yield 后只能跟 promise/generator等 跟普通的Object会报错
+     */
+    // let result = yield coRequest(origin);
+    // url = result.client._httpMessage._headers.host + result.client._httpMessage.path;
+    let url = yield requestPromise(origin).then((path) => {
+        return path;
     });
-
     this.body = JSON.stringify({
         url: url
     });
