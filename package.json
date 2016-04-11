@@ -2,7 +2,7 @@
   "name": "tech-read",
   "description": "Collection tech articles daily from UGC communities",
   "author": "pomy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "build": "webpack --config ./config/webpack.config.js -w --progress --display-error-details",
     "start": "node --harmony ./server/app.js",
