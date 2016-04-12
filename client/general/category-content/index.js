@@ -62,7 +62,7 @@ export default class CategoryContent extends Component {
                     <XiTuContent id={categotyId}/>
                 </div>
                 <div className="article-content" style={{display:this.state.iframeIsShow ? 'block':'none'}}>
-                    <iframe className="article-content-iframe"  src={url} frameBorder="0"></iframe>
+                    <iframe sandbox="allow-same-origin allow-top-navigation allow-scripts allow-forms" className="article-content-iframe"  src={url} frameBorder="0"></iframe>
                     <div className="close-iframe" onClick={this.closeIframe.bind(this)}>关闭</div>
                 </div>
             </div>
