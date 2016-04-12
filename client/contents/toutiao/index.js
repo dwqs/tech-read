@@ -79,7 +79,7 @@ export default class TouTiaoContent extends Component {
                 <div className="post" key={++postId} onClick={this.listener(originUrl)}>
                     <div className="content">
                         <h3 className="title">
-                            <a href={originUrl}>{title}</a>
+                            <a target="_blank" href={originUrl}>{title}</a>
                         </h3>
                         <div className="meta">{meta}</div>
                     </div>

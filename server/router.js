@@ -53,9 +53,24 @@ function* toutiaoArticle() {
     });
 }
 
+function* geek () {
+    this.response.set("Content-Type", "text/plain;charset=utf-8");
+
+    let resBody = request('http://geek.csdn.net/', (error, response, body) => {
+        if(!error && response.statusCode == 200){
+            return body;
+        } else {
+            return reponseBody;
+        }
+    });
+
+    this.body = resBody;
+}
+
 exports.register = function (router) {
     router.get('/', index);
     router.get('/index', index);
     router.get('/toutiao', toutiao);
-    router.get('/toutiao/article',toutiaoArticle);
+    router.get('/toutiao/article', toutiaoArticle);
+    router.get('/geek', geek)
 };

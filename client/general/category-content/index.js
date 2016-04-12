@@ -51,13 +51,13 @@ export default class CategoryContent extends Component {
 
     render (){
         let categotyId = this.props.id;
-        let url = '//' + this.state.articleUrl;
+        let url = this.state.articleUrl.indexOf('//') !== -1 ? this.state.articleUrl : '//' + this.state.articleUrl;
 
         return (
             <div className="category-content">
                 <div className="contents">
                     <TouTiaoContent open={this.openIframe.bind(this)} id={categotyId}/>
-                    <GeekContent id={categotyId}/>
+                    <GeekContent open={this.openIframe.bind(this)} id={categotyId}/>
                     <BoleContent id={categotyId}/>
                     <XiTuContent id={categotyId}/>
                 </div>
