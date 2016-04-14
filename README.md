@@ -1,5 +1,16 @@
 Collection tech articles daily from UGC communities, example: toutiao.io etc.
 
+### Capture
+
+**toutiao.com:**
+![toutiao](https://segmentfault.com/img/bVuT1l)
+
+**local reading:**
+![read](https://segmentfault.com/img/bVuT1q)
+
+**jbobole.com:**
+![jobbole](https://segmentfault.com/img/bVuT1s)
+
 ### Running
 
 You can follow following steps to run it in your computer:
