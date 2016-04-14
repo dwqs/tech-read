@@ -11,7 +11,7 @@ import React, {Component} from 'react';
 import TouTiaoContent from '../../contents/toutiao/index';
 import GeekContent from '../../contents/geek/index';
 import BoleContent from '../../contents/bole/index';
-import XiTuContent from '../../contents/xitu/index';
+//import XiTuContent from '../../contents/xitu/index';
 
 import {TechReadStore} from '../../stores/tech-read-store';
 
@@ -24,7 +24,7 @@ export default class CategoryContent extends Component {
         this.state = {
             articleUrl: '',
             iframeIsShow: false
-        }
+        };
     }
 
     openIframe (url=''){
@@ -58,8 +58,7 @@ export default class CategoryContent extends Component {
                 <div className="contents">
                     <TouTiaoContent open={this.openIframe.bind(this)} id={categotyId}/>
                     <GeekContent open={this.openIframe.bind(this)} id={categotyId}/>
-                    <BoleContent id={categotyId}/>
-                    <XiTuContent id={categotyId}/>
+                    <BoleContent open={this.openIframe.bind(this)} id={categotyId}/>
                 </div>
                 <div className="article-content" style={{display:this.state.iframeIsShow ? 'block':'none'}}>
                     <iframe sandbox="allow-same-origin allow-top-navigation allow-scripts allow-forms" className="article-content-iframe"  src={url} frameBorder="0"></iframe>
@@ -69,3 +68,5 @@ export default class CategoryContent extends Component {
         );
     }
 }
+//
+//<XiTuContent open={this.openIframe.bind(this)} id={categotyId}/>

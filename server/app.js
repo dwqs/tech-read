@@ -8,6 +8,7 @@ var compress = require('koa-compress');
 var logger = require('koa-logger');
 var serve = require('koa-static');
 var koa = require('koa');
+var koaJson = require('koa-json');
 var bodyParser = require('koa-bodyparser');
 var router = require('koa-router')();
 
@@ -18,6 +19,7 @@ var routerRegister = require('./router');
 var app = koa();
 
 app.use(bodyParser());
+app.use(koaJson());
 // Serve static files
 app.use(serve(path.resolve(__dirname, '../public')));
 // Compress

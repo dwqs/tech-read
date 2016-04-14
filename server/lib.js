@@ -6,7 +6,7 @@
 
 let request = require('request');
 
-module.exports = function (url) {
+exports.parseUrl = function (url) {
     return new Promise(function (resolve, reject) {
         let req = request.get(url);
         let urlPath = '';
@@ -19,6 +19,18 @@ module.exports = function (url) {
                 urlPath = res.client._httpMessage._headers.host + res.client._httpMessage.path;
                 resolve(urlPath);
             }
+        });
+    });
+};
+
+exports.parseBody = function (url) {
+    return new Promise(function (resolve, reject) {
+        request(url, (error, res, body) => {
+           if(!error && res.statusCode === 200) {
+               resolve(body);
+           } else {
+               reject(err);
+           }
         });
     });
 };
