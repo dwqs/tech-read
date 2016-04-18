@@ -24,14 +24,14 @@ let _data = {
         id: 2,
         url: 'http://top.jobbole.com/',
         title: '伯乐头条'
+    }, {
+        id: 3,
+        url: 'https://segmentfault.com/blogs',
+        title: 'SegmentFault'
     }]
 };
+//稀土·掘金
 
-// , {
-//     id: 3,
-//         url: 'http://gold.xitu.io/',
-//         title: '稀土·掘金'
-// }
 
 let _store = {};
 

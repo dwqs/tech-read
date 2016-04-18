@@ -12,7 +12,7 @@ import {$,_} from '../../lib/base';
 
 import Loading from '../../general/loading/index';
 
-export default class XiTuContent extends Component {
+export default class SegmentFault extends Component {
 
     constructor (){
         super ();

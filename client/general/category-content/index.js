@@ -11,7 +11,7 @@ import React, {Component} from 'react';
 import TouTiaoContent from '../../contents/toutiao/index';
 import GeekContent from '../../contents/geek/index';
 import BoleContent from '../../contents/bole/index';
-//import XiTuContent from '../../contents/xitu/index';
+import SegmentFault from '../../contents/sg/index';
 
 import {TechReadStore} from '../../stores/tech-read-store';
 
@@ -69,4 +69,4 @@ export default class CategoryContent extends Component {
     }
 }
 //
-//<XiTuContent open={this.openIframe.bind(this)} id={categotyId}/>
+//<SegmentFault open={this.openIframe.bind(this)} id={categotyId}/>
