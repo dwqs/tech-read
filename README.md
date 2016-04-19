@@ -1,4 +1,4 @@
-Collection tech articles daily from UGC communities, example: toutiao.io etc.
+Collection tech articles daily from UGC communities, example: toutiao.io etc: [Tech-Read](http://tech-read.ido321.com:8080/)
 
 ### Capture
 
