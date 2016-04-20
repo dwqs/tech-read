@@ -59,6 +59,7 @@ export default class CategoryContent extends Component {
                     <TouTiaoContent open={this.openIframe.bind(this)} id={categotyId}/>
                     <GeekContent open={this.openIframe.bind(this)} id={categotyId}/>
                     <BoleContent open={this.openIframe.bind(this)} id={categotyId}/>
+                    <SegmentFault open={this.openIframe.bind(this)} id={categotyId}/>
                 </div>
                 <div className="article-content" style={{display:this.state.iframeIsShow ? 'block':'none'}}>
                     <iframe sandbox="allow-same-origin allow-top-navigation allow-scripts allow-forms" className="article-content-iframe"  src={url} frameBorder="0"></iframe>

@@ -31,7 +31,6 @@ export default class BoleContent extends Component {
         },(err)=>{
             console.log('error',err);
         }).then((json) => {
-
             this.setState({
                 fetching: false,
                 postLists: json.postLists

@@ -8,7 +8,7 @@ import './index.less';
 
 import React, {Component} from 'react';
 
-import {$,_} from '../../lib/base';
+import {_} from '../../lib/base';
 
 import Loading from '../../general/loading/index';
 
@@ -18,21 +18,21 @@ export default class SegmentFault extends Component {
         super ();
         this.state = {
             id: 3,
-            url: 'http://gold.xitu.io/',
+            url: 'https://segmentfault.com/blogs',
             fetching: true,
             postLists: []
         };
     }
 
     componentWillMount (){
-        fetch('/xitu').then((response) => {
-            return response.text();
+        fetch('/sg').then((response) => {
+            return response.json();
         },(err)=>{
             console.log('error',err);
-        }).then((text) => {
+        }).then((json) => {
             this.setState({
                 fetching: false,
-                postLists: $(text).find('.entries').children('.entry').slice(4)
+                postLists: json.postLists
             });
         });
     }
@@ -48,15 +48,14 @@ export default class SegmentFault extends Component {
         let posts = [];
         let postId = -1;
 
-        _.forEach(this.state.postLists, (post) => {
-            let div = $(post);
-            let titleObj = div.find('.entry-info .entry-title a');
-            let title = titleObj.text();
-            let originUrl = titleObj.attr('href');
-            let meta = div.find('.entry-tags div')[0].firstChild.nodeValue;
-            let avatarUrl = div.find('img').attr('src');
-            let subjectUrl = '#';
-            let subjectText = div.find('.entry-tags div:last-child').text();
+        _.forEach(this.state.postLists, (list) => {
+            let title = list.listTitle;
+            let originUrl = list.listOriginUrl;
+            let author = list.listMetaAuthor;
+            let time = list.listTime;
+            let avatarUrl = list.listAvatarUrl;
+            let subjectUrl = list.listSubjectUrl;
+            let subjectText = list.listSubjectText;
 
             posts.push(
                 <div className="post" key={++postId} onClick={this.listener(originUrl)}>
@@ -64,7 +63,7 @@ export default class SegmentFault extends Component {
                         <h3 className="title">
                             <a target="_blank" href={originUrl}>{title}</a>
                         </h3>
-                        <div className="meta">{meta}</div>
+                        <div className="meta">{author}&nbsp;{time}</div>
                     </div>
                     <div className="user-info">
                         <div className="user-avatar">
@@ -81,7 +80,7 @@ export default class SegmentFault extends Component {
 
     render (){
         let isDisplay = Number(this.props.id) === this.state.id ? true : false;
-        let xituPosts = this.renderPostList();
+        let sgPosts = this.renderPostList();
 
         if(this.state.fetching) {
             return (
@@ -92,7 +91,7 @@ export default class SegmentFault extends Component {
         }
         return (
             <div className="xitu-contents" style={{display: isDisplay?'block':'none'}}>
-                {xituPosts}
+                {sgPosts}
             </div>
         );
     }

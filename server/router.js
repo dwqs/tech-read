@@ -11,8 +11,6 @@ let $ = require('cheerio');
 let render = require('./render');
 let requestPromise = require('./lib');
 
-let reponseBody = '404 not found';
-
 function* index () {
     this.response.body = yield render('index');
 }
@@ -20,13 +18,16 @@ function* index () {
 function* toutiao() {
     this.response.set("Content-Type", "text/plain;charset=utf-8");
 
-    let resBody = request('http://toutiao.io/', (error, response, body) => {
-        if(!error && response.statusCode == 200){
-            return body;
-        } else {
-            return reponseBody;
-        }
+    let resBody = yield requestPromise.parseBody('http://toutiao.io/').then((body) => {
+        return body;
     });
+    // let resBody = request('http://toutiao.io/', (error, response, body) => {
+    //     if(!error && response.statusCode == 200){
+    //         return body;
+    //     } else {
+    //         return reponseBody;
+    //     }
+    // });
 
     this.body = resBody;
 }
@@ -119,18 +120,47 @@ function* bole () {
     };
 }
 
-function* xitu () {
-    this.response.set("Content-Type", "text/plain;charset=utf-8");
+function* sg () {
+    this.response.set("Content-Type", "application/json;charset=utf-8");
 
-    let resBody = request('http://gold.xitu.io/#/', (error, response, body) => {
-        if(!error && response.statusCode == 200){
-            return body;
-        } else {
-            return reponseBody;
-        }
+    let resBody = yield requestPromise.parseBody('https://segmentfault.com/blogs').then((body) => {
+        return body;
     });
 
-    this.body = resBody;
+    let origin = 'https://segmentfault.com';
+    let lists = $(resBody).find('.stream-list').children();
+
+    let sgLists = lists.map((index, list) => {
+        let titleObj = $(list).find('.title a');
+        let title = titleObj.text();
+        let originUrl = origin + titleObj.attr('href');
+        let metaAuthor = $(list).find('.author a:first-child').text();
+        let metaTime = $(list).find('.author .split')[0].nextSibling.nodeValue;
+        let avatarUrl = $(list).find('.author img').attr('src');
+        let a = $(list).find('.author a')[1];
+        let subjectUrl = origin + a.attribs.href;
+        let subjectText = a.children[0].data;
+
+        return {
+            listTitle:title,
+            listOriginUrl: originUrl,
+            listMetaAuthor: metaAuthor,
+            listTime: metaTime,
+            listAvatarUrl: avatarUrl,
+            listSubjectUrl: subjectUrl,
+            listSubjectText: subjectText
+        };
+    });
+
+    let arr = [];
+
+    for (let i = 0, len = sgLists.length; i < len; i++) {
+        arr.push(sgLists[i]);
+    }
+
+    this.response.body = {
+        postLists:arr
+    };
 }
 
 exports.register = function (router) {
@@ -140,5 +170,5 @@ exports.register = function (router) {
     router.get('/toutiao/article', toutiaoArticle);
     router.get('/geek', geek);
     router.get('/bole', bole);
-    //router.get('/xitu', xitu)
+    router.get('/sg', sg)
 };
