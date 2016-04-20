@@ -1,6 +1,6 @@
 Collection tech articles daily from UGC communities, example: toutiao.io etc, site: [Tech-Read](http://tech-read.ido321.com:8080/)
 
-### Capture
+### Captures
 
 **toutiao.com:**
 ![toutiao](https://segmentfault.com/img/bVuT1l)
