@@ -40,7 +40,9 @@ export default class TouTiaoContent extends Component {
     listener (originUrl){
         return (e) => {
             e.stopPropagation();
-
+            if (e.target.nodeName.toLowerCase() === 'a' || e.target.nodeName.toLowerCase() === 'h3'){
+                return;
+            }
             let initHeaders = new Headers({
                 'X-Custom-Header': originUrl
             });

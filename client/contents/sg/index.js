@@ -40,6 +40,9 @@ export default class SegmentFault extends Component {
     listener (originUrl){
         return (e) => {
             e.stopPropagation();
+            if (e.target.nodeName.toLowerCase() === 'a' || e.target.nodeName.toLowerCase() === 'h3'){
+                return;
+            }
             this.props.open(originUrl);
         };
     }

@@ -49,6 +49,11 @@ export default class CategoryContent extends Component {
         techReadStore = null;
     }
 
+    load (){
+        console.log('ccccccc',document.getElementById('if').contentWindow.document.body)
+    }
+
+
     render (){
         let categotyId = this.props.id;
         let url = this.state.articleUrl.indexOf('//') !== -1 ? this.state.articleUrl : '//' + this.state.articleUrl;
@@ -62,12 +67,10 @@ export default class CategoryContent extends Component {
                     <SegmentFault open={this.openIframe.bind(this)} id={categotyId}/>
                 </div>
                 <div className="article-content" style={{display:this.state.iframeIsShow ? 'block':'none'}}>
-                    <iframe sandbox="allow-same-origin allow-top-navigation allow-scripts allow-forms" className="article-content-iframe"  src={url} frameBorder="0"></iframe>
+                    <iframe id='if' sandbox="allow-same-origin allow-top-navigation allow-scripts allow-forms" className="article-content-iframe"  src={url} frameBorder="0"></iframe>
                     <div className="close-iframe" onClick={this.closeIframe.bind(this)}>关闭</div>
                 </div>
             </div>
         );
     }
 }
-//
-//<SegmentFault open={this.openIframe.bind(this)} id={categotyId}/>

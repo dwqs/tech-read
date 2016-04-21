@@ -28,8 +28,9 @@ app.use(compress());
 app.use(logger());
 //router
 routerRegister.register(router);
+//router.routes()
 app.use(router.middleware());
 
 app.listen('9000','127.0.0.1',  () => {
-    console.log('listening on port 9000...');
+    console.log(process.env.NODE_ENV,'listening on port 9000...');
 });
