@@ -4,7 +4,8 @@
   "author": "pomy",
   "version": "1.0.6",
   "scripts": {
-    "build": "webpack --config ./config/webpack.config.js -w --progress --display-error-details",
+    "dev-build": "webpack --config ./config/webpack.config.js -w --progress --display-error-details",
+    "pro-build": "webpack --config ./config/webpack.config.js --progress --display-error-details",
     "start": "NODE_ENV=development node --harmony ./server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
