@@ -8,8 +8,6 @@ import './index.less';
 
 import React, {Component} from 'react';
 
-import {$} from '../../lib/base';
-
 import TouTiaoContent from '../../contents/toutiao/index';
 import GeekContent from '../../contents/geek/index';
 import BoleContent from '../../contents/bole/index';
@@ -55,13 +53,27 @@ export default class CategoryContent extends Component {
         let categotyId = this.props.id;
         let url = this.state.articleUrl.indexOf('//') !== -1 ? this.state.articleUrl : '//' + this.state.articleUrl;
 
+        let renderContents = '';
+
+        switch (~~categotyId) {
+        case 0:
+            renderContents = <TouTiaoContent open={this.openIframe.bind(this)}/>;
+            break;
+        case 1:
+            renderContents = <GeekContent open={this.openIframe.bind(this)}/>;
+            break;
+        case 2:
+            renderContents = <BoleContent open={this.openIframe.bind(this)}/>;
+            break;
+        case 3:
+            renderContents = <SegmentFault open={this.openIframe.bind(this)}/>;
+            break;
+        }
+
         return (
             <div className="category-content">
                 <div className="contents">
-                    <TouTiaoContent open={this.openIframe.bind(this)} id={categotyId}/>
-                    <GeekContent open={this.openIframe.bind(this)} id={categotyId}/>
-                    <BoleContent open={this.openIframe.bind(this)} id={categotyId}/>
-                    <SegmentFault open={this.openIframe.bind(this)} id={categotyId}/>
+                    {renderContents}
                 </div>
                 <div className="article-content" style={{display:this.state.iframeIsShow ? 'block':'none'}}>
                     <iframe sandbox="allow-same-origin allow-top-navigation allow-scripts allow-forms" className="article-content-iframe"  src={url} frameBorder="0"></iframe>

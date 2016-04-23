@@ -56,7 +56,7 @@ export default class CategoryList extends Component {
             } else {
                 lists.classList.remove('fixed-list');
             }
-        }, false)
+        }, false);
     }
 
     renderCategoryList (){

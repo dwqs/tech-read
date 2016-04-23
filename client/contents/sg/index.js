@@ -82,18 +82,17 @@ export default class SegmentFault extends Component {
     }
 
     render (){
-        let isDisplay = Number(this.props.id) === this.state.id ? true : false;
         let sgPosts = this.renderPostList();
 
         if(this.state.fetching) {
             return (
-                <div className="xitu-contents" style={{display: isDisplay?'block':'none'}}>
+                <div className="xitu-contents">
                     <Loading/>
                 </div>
             );
         }
         return (
-            <div className="xitu-contents" style={{display: isDisplay?'block':'none'}}>
+            <div className="xitu-contents">
                 {sgPosts}
             </div>
         );

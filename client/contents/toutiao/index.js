@@ -9,6 +9,7 @@ import './index.less';
 import React, {Component} from 'react';
 
 import {$,_} from '../../lib/base';
+import timeConvert from '../../lib/time-convert';
 
 import Loading from '../../general/loading/index';
 
@@ -16,11 +17,17 @@ export default class TouTiaoContent extends Component {
 
     constructor (){
         super ();
+        //一天的毫秒数
+        this.oneDayMill = +24*60*60*1000;
+        this.currentDayMill = +new Date();
+
         this.state = {
             id: 0,
             fetching: true,
             origin: 'http://toutiao.io',
-            postLists: []
+            postLists: [],
+            loading: false,
+            nextFetchUrl: 'http://toutiao.io/prev'
         };
     }
 
@@ -35,6 +42,39 @@ export default class TouTiaoContent extends Component {
                 postLists: $(text).find('.posts:first').children('.post')
             });
         });
+    }
+    
+    fetchNext (utc){
+        let day = timeConvert(utc);
+        console.log('sssss111',this.currentDayMill);
+        this.currentDayMill = new Date(day).getTime();
+        console.log('sssss',day,this.currentDayMill);
+    }
+
+    componentDidMount (){
+        let _self = this;
+        let contents = document.getElementsByClassName('toutiao-contents')[0];
+        let contentsHeight = contents.getBoundingClientRect().height;
+
+        /**
+         * e.target.scrollHeight 是元素的可见高度加不可见的高度
+         * e.target.scrollTop 是滚动的高度 其最大值是e.target.scrollHeight-contentHeight(被隐藏的高度)
+         * contentsHeight 元素本身的高度
+         */
+        contents.addEventListener('scroll', (e) => {
+            let triggerNextMinHeight = e.target.scrollHeight - e.target.scrollTop - contentsHeight;
+            if(triggerNextMinHeight < 22) {
+                _self.fetchNext(_self.currentDayMill - _self.oneDayMill);
+                _self.setState({
+                    loading: true
+                });
+            }
+        },false);
+    }
+
+    componentWillUnmount (){
+        let contents = document.getElementsByClassName('toutiao-contents')[0];
+        console.log('toutiao',contents);
     }
 
     listener (originUrl){
@@ -99,20 +139,22 @@ export default class TouTiaoContent extends Component {
     }
 
     render (){
-        let isDisplay = Number(this.props.id) === this.state.id ? true : false;
         let toutiaoPosts = this.renderPostList();
+        let loading = this.state.loading ? <div className="next-loading">正在加载....</div>:'';
+
 
         if(this.state.fetching) {
             return (
-                <div className="toutiao-contents" style={{display: isDisplay?'block':'none'}}>
+                <div className="toutiao-contents">
                     <Loading/>
                 </div>
             );
         }
 
         return (
-            <div className="toutiao-contents" style={{display: isDisplay?'block':'none'}}>
+            <div className="toutiao-contents">
                 {toutiaoPosts}
+                {loading}
             </div>
         );
     }

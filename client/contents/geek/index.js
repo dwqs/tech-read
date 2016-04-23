@@ -83,19 +83,18 @@ export default class GeekContent extends Component {
     }
 
     render (){
-        let isDisplay = Number(this.props.id) === this.state.id ? true : false;
         let geekPosts = this.renderPostList();
 
         if(this.state.fetching) {
             return (
-                <div className="geek-contents" style={{display: isDisplay?'block':'none'}}>
+                <div className="geek-contents">
                     <Loading/>
                 </div>
             );
         }
 
         return (
-            <div className="geek-contents" style={{display: isDisplay?'block':'none'}}>
+            <div className="geek-contents">
                 {geekPosts}
             </div>
         );

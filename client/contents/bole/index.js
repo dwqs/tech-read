@@ -82,19 +82,18 @@ export default class BoleContent extends Component {
     }
 
     render (){
-        let isDisplay = Number(this.props.id) === this.state.id ? true : false;
         let bolePosts = this.renderPostList();
 
         if(this.state.fetching) {
             return (
-                <div className="bole-contents" style={{display: isDisplay?'block':'none'}}>
+                <div className="bole-contents">
                     <Loading/>
                 </div>
             );
         }
 
         return (
-            <div className="bole-contents" style={{display: isDisplay?'block':'none'}}>
+            <div className="bole-contents">
                 {bolePosts}
             </div>
         );
