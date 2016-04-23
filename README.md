@@ -29,3 +29,7 @@ After that, open `127.0.0.1:9000` with your browser. I recommend you use chrome 
 ### Other
 
 In order to facilitate daily development, I write a simple front-end development scaffolding, and it be used for this project. If you're interesting it, just clone it: [web-fe-dev](https://github.com/dwqs/web-fe-dev)
+
+###License
+
+MIT
