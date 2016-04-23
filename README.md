@@ -1,4 +1,4 @@
-Collection tech articles daily from UGC communities, example: toutiao.io etc, site: [Tech-Read](http://tech-read.ido321.com:8080/)
+Grab tech articles daily from UGC communities, example: toutiao.io etc, site: [Tech-Read](http://tech-read.ido321.com:8080/)
 
 ### Captures
 
@@ -29,3 +29,7 @@ After that, open `127.0.0.1:9000` with your browser. I recommend you use chrome 
 ### Other
 
 In order to facilitate daily development, I write a simple front-end development scaffolding, and it be used for this project. If you're interesting it, just clone it: [web-fe-dev](https://github.com/dwqs/web-fe-dev)
+
+###License
+
+MIT
