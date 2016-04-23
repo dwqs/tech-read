@@ -9,7 +9,7 @@ import './index.less';
 import React, {Component} from 'react';
 
 import {$,_} from '../../lib/base';
-import timeConvert from '../../lib/time-convert';
+import {timeConvert} from '../../lib/time-convert';
 
 import Loading from '../../general/loading/index';
 
@@ -43,7 +43,7 @@ export default class TouTiaoContent extends Component {
             });
         });
     }
-    
+
     fetchNext (utc){
         let day = timeConvert(utc);
         console.log('sssss111',this.currentDayMill);
