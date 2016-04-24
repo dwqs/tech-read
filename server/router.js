@@ -16,11 +16,6 @@ function* index () {
 }
 
 function* toutiao() {
-    this.response.set("Content-Type", "text/plain;charset=utf-8");
-
-    let resBody = yield requestPromise.parseBody('http://toutiao.io/').then((body) => {
-        return body;
-    });
     // let resBody = request('http://toutiao.io/', (error, response, body) => {
     //     if(!error && response.statusCode == 200){
     //         return body;
@@ -28,8 +23,43 @@ function* toutiao() {
     //         return reponseBody;
     //     }
     // });
+    this.response.set("Content-Type", "application/json;charset=utf-8");
 
-    this.body = resBody;
+    let resBody = yield requestPromise.parseBody('http://toutiao.io/').then((body) => {
+        return body;
+    });
+
+    let lists = $(resBody).find('.posts').first().children('.post');
+
+    let toutiaoPrevLists = lists.map((index, list) => {
+        let titleObj = $(list).find('.title');
+        let title = titleObj.text();
+        let originUrl = titleObj.children('a').attr('href');
+        let meta = $(list).find('.meta')[0].firstChild.nodeValue;;
+        let avatarUrl = $(list).find('img').attr('src');;
+        let subjectUrl = $(list).find('.subject-name a').attr('href');
+        let subjectOriginUrl = `http://toutiao.io${subjectUrl}`;
+        let subjectText = $(list).find('.subject-name a').text();
+
+        return {
+            listTitle:title,
+            listOriginUrl: originUrl,
+            listMeta: meta,
+            listAvatarUrl: avatarUrl,
+            listSubjectUrl: subjectOriginUrl,
+            listSubjectText: subjectText
+        };
+    });
+
+    let arr = [];
+
+    for (let i = 0, len = toutiaoPrevLists.length; i < len; i++) {
+        arr.push(toutiaoPrevLists[i]);
+    }
+
+    this.response.body = {
+        postLists:arr
+    };
 }
 
 function* toutiaoArticle() {
@@ -53,6 +83,48 @@ function* toutiaoArticle() {
     this.body = JSON.stringify({
         url: url
     });
+}
+
+function* toutiaotPrev () {
+    this.response.set("Content-Type", "application/json;charset=utf-8");
+
+    let prevUrl = this.request.get('x-custom-header');
+
+    let resBody = yield requestPromise.parseBody(prevUrl).then((body) => {
+        return body;
+    });
+
+    let lists = $(resBody).find('.post');
+
+    let toutiaoPrevLists = lists.map((index, list) => {
+        let titleObj = $(list).find('.title');
+        let title = titleObj.text();
+        let originUrl = titleObj.children('a').attr('href');
+        let meta = $(list).find('.meta')[0].firstChild.nodeValue;;
+        let avatarUrl = $(list).find('img').attr('src');;
+        let subjectUrl = $(list).find('.subject-name a').attr('href');
+        let subjectOriginUrl = `http://toutiao.io${subjectUrl}`;
+        let subjectText = $(list).find('.subject-name a').text();
+
+        return {
+            listTitle:title,
+            listOriginUrl: originUrl,
+            listMeta: meta,
+            listAvatarUrl: avatarUrl,
+            listSubjectUrl: subjectOriginUrl,
+            listSubjectText: subjectText
+        };
+    });
+
+    let arr = [];
+
+    for (let i = 0, len = toutiaoPrevLists.length; i < len; i++) {
+        arr.push(toutiaoPrevLists[i]);
+    }
+
+    this.response.body = {
+        postLists:arr
+    };
 }
 
 function* geek () {
@@ -168,6 +240,7 @@ exports.register = function (router) {
     router.get('/index', index);
     router.get('/toutiao', toutiao);
     router.get('/toutiao/article', toutiaoArticle);
+    router.get('/toutiao/prev', toutiaotPrev)
     router.get('/geek', geek);
     router.get('/bole', bole);
     router.get('/sg', sg)

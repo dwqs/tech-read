@@ -33,22 +33,38 @@ export default class TouTiaoContent extends Component {
 
     componentWillMount (){
         fetch('/toutiao').then((response) => {
-            return response.text();
+            return response.json();
         },(err)=>{
             console.log('error',err);
-        }).then((text) => {
+        }).then((json) => {
             this.setState({
                 fetching: false,
-                postLists: $(text).find('.posts:first').children('.post')
+                postLists: json.postLists
             });
         });
     }
 
     fetchNext (utc){
         let day = timeConvert(utc);
-        console.log('sssss111',this.currentDayMill);
-        this.currentDayMill = new Date(day).getTime();
-        console.log('sssss',day,this.currentDayMill);
+
+        let preUrl = `${this.state.nextFetchUrl}/${day}`;
+        let initHeaders = new Headers({
+            'X-Custom-Header': preUrl
+        });
+
+        fetch('/toutiao/prev',{
+            headers:initHeaders
+        }).then((res) => {
+            return res.json();
+        },(err)=>{
+            console.log('error',err);
+        }).then((json) => {
+            this.currentDayMill = new Date(day).getTime();
+            this.setState({
+                loading: false,
+                postLists: this.state.postLists.concat(json.postLists)
+            });
+        });
     }
 
     componentDidMount (){
@@ -64,17 +80,15 @@ export default class TouTiaoContent extends Component {
         contents.addEventListener('scroll', (e) => {
             let triggerNextMinHeight = e.target.scrollHeight - e.target.scrollTop - contentsHeight;
             if(triggerNextMinHeight < 22) {
-                _self.fetchNext(_self.currentDayMill - _self.oneDayMill);
-                _self.setState({
-                    loading: true
-                });
+                if(!!!_self.state.loading){
+                    //grab prev day data
+                    _self.fetchNext(_self.currentDayMill - _self.oneDayMill);
+                    _self.setState({
+                        loading: true
+                    });
+                }
             }
         },false);
-    }
-
-    componentWillUnmount (){
-        let contents = document.getElementsByClassName('toutiao-contents')[0];
-        console.log('toutiao',contents);
     }
 
     listener (originUrl){
@@ -106,16 +120,13 @@ export default class TouTiaoContent extends Component {
         let posts = [];
         let postId = -1;
 
-        _.forEach(this.state.postLists, (post) => {
-            let div = $(post);
-            let titleObj = div.find('.title');
-            let title = titleObj.text();
-            let originUrl = titleObj.children('a').attr('href');
-            let meta = div.find('.meta')[0].firstChild.nodeValue;
-            let avatarUrl = div.find('img').attr('src');
-            let subjectUrl = div.find('.subject-name a').attr('href');
-            let subjectOriginUrl = `${this.state.origin}${subjectUrl}`;
-            let subjectText = div.find('.subject-name a').text();
+        _.forEach(this.state.postLists, (list) => {
+            let title = list.listTitle;
+            let originUrl = list.listOriginUrl;
+            let meta = list.listMeta;
+            let avatarUrl = list.listAvatarUrl;
+            let subjectUrl = list.listSubjectUrl;
+            let subjectText = list.listSubjectText;
 
             posts.push(
                 <div className="post" key={++postId} onClick={this.listener(originUrl)}>
@@ -130,7 +141,7 @@ export default class TouTiaoContent extends Component {
                             <img width="32" className="img-circle" src={avatarUrl} />
                         </div>
                     </div>
-                    <div className="subject-name">来自 <a target="_blank" href={subjectOriginUrl}>{subjectText}</a></div>
+                    <div className="subject-name">来自 <a target="_blank" href={subjectUrl}>{subjectText}</a></div>
                 </div>
             );
         });
