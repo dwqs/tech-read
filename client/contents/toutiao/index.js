@@ -80,6 +80,7 @@ export default class TouTiaoContent extends Component {
         contents.addEventListener('scroll', (e) => {
             let triggerNextMinHeight = e.target.scrollHeight - e.target.scrollTop - contentsHeight;
             if(triggerNextMinHeight < 22) {
+                //locked
                 if(!!!_self.state.loading){
                     //grab prev day data
                     _self.fetchNext(_self.currentDayMill - _self.oneDayMill);
