@@ -18,7 +18,7 @@ export default class Header extends Component {
             <header>
                 <div className="tech-daily-read-header">
                     <span className="logo-text">Tech Daily Read</span>
-                    <span className="logo-text-desc">Collection tech articles daily from UGC communities for reading</span>
+                    <span className="logo-text-desc">Grab tech articles daily from UGC communities for reading</span>
                 </div>
             </header>
         );
