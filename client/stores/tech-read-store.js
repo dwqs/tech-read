@@ -28,14 +28,6 @@ let _data = {
         id: 3,
         url: 'https://segmentfault.com/blogs',
         title: 'SegmentFault'
-    },{
-        id: 3,
-        url: 'https://segmentfault.com/blogs',
-        title: 'SegmentFault1'
-    },{
-        id: 3,
-        url: 'https://segmentfault.com/blogs',
-        title: 'SegmentFault2'
     }]
 };
 //稀土·掘金

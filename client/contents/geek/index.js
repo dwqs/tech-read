@@ -26,13 +26,13 @@ export default class GeekContent extends Component {
 
     componentWillMount (){
         fetch('/geek').then((response) => {
-            return response.text();
+            return response.json();
         },(err)=>{
             console.log('error',err);
-        }).then((text) => {
+        }).then((json) => {
             this.setState({
                 fetching: false,
-                postLists: $(text).find('#geek_list').children('.geek_list')
+                postLists: json.postLists
             });
         });
     }
@@ -51,15 +51,13 @@ export default class GeekContent extends Component {
         let posts = [];
         let postId = -1;
 
-        _.forEach(this.state.postLists, (post) => {
-            let div = $(post);
-            let titleObj = div.find('.tracking-ad .title');
-            let title = titleObj.text();
-            let originUrl = titleObj.attr('href');
-            let meta = div.find('.list-inline a')[0].firstChild.nodeValue;
-            let avatarUrl = div.find('img').attr('src');
-            let subjectUrl = div.find('.list-inline a').length === 1 ? div.find('.list-inline a').attr('href') : div.find('.list-inline a:last-child').attr('href');
-            let subjectText = div.find('.list-inline a').length === 1 ? div.find('.list-inline a').text() : div.find('.list-inline a:last-child').text();
+        _.forEach(this.state.postLists, (list) => {
+            let title = list.listTitle;
+            let originUrl = list.listOriginUrl;
+            let meta = list.listMeta;
+            let avatarUrl = list.listAvatarUrl;
+            let subjectUrl = list.listSubjectUrl;
+            let subjectText = list.listSubjectText;
 
             posts.push(
                 <div className="post" key={++postId} onClick={this.listener(originUrl)}>

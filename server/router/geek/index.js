@@ -10,13 +10,42 @@ let $ = require('cheerio');
 let requestPromise = require('../../lib');
 
 function* geek () {
-    this.response.set("Content-Type", "text/plain;charset=utf-8");
+    this.response.set("Content-Type", "application/json;charset=utf-8");
 
     let resBody = yield requestPromise.parseBody('http://geek.csdn.net/').then((body) => {
         return body;
     });
 
-    this.body = resBody;
+    let lists = $(resBody).find('#geek_list').children('.geek_list');
+
+    let geekLists = lists.map((index, list) => {
+        let titleObj = $(list).find('.tracking-ad .title');
+        let title = titleObj.text();
+        let originUrl = titleObj.attr('href');
+        let meta = $(list).find('.list-inline a')[0].firstChild.nodeValue;
+        let avatarUrl = $(list).find('img').attr('src');
+        let subjectUrl = $(list).find('.list-inline a').length === 1 ? $(list).find('.list-inline a').attr('href') : $(list).find('.list-inline a').last().attr('href');
+        let subjectText = $(list).find('.list-inline a').length === 1 ? $(list).find('.list-inline a').text() : $(list).find('.list-inline a').last().text();
+
+        return {
+            listTitle:title,
+            listOriginUrl: originUrl,
+            listMeta: meta,
+            listAvatarUrl: avatarUrl,
+            listSubjectUrl: subjectUrl,
+            listSubjectText: subjectText
+        };
+    });
+
+    let arr = [];
+
+    for (let i = 0, len = geekLists.length; i < len; i++) {
+        arr.push(geekLists[i]);
+    }
+
+    this.response.body = {
+        postLists:arr
+    };
 }
 
 module.exports.register = (router) => {
