@@ -18,7 +18,7 @@ You can follow following steps to run it in your computer:
 ```
 git clone https://github.com/dwqs/tech-read.git && cd tech-read
 npm i
-npm run build
+npm run dev-build  //this is for development, npm run pro-build is for production
 npm start
 ```
 
