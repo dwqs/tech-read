@@ -7,12 +7,12 @@
 let $ = require('cheerio');
 //let coRequest = require('co-request');
 
-let requestPromise = require('../../lib');
+let lib = require('../../lib');
 
 function* sg () {
     this.response.set("Content-Type", "application/json;charset=utf-8");
 
-    let resBody = yield requestPromise.parseBody('https://segmentfault.com/blogs').then((body) => {
+    let resBody = yield lib.parseBody('https://segmentfault.com/blogs').then((body) => {
         return body;
     });
 
@@ -41,11 +41,7 @@ function* sg () {
         };
     });
 
-    let arr = [];
-
-    for (let i = 0, len = sgLists.length; i < len; i++) {
-        arr.push(sgLists[i]);
-    }
+    let arr = lib.listToArr(sgLists);
 
     this.response.body = {
         postLists:arr

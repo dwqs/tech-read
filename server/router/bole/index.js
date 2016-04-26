@@ -7,12 +7,12 @@
 let $ = require('cheerio');
 //let coRequest = require('co-request');
 
-let requestPromise = require('../../lib');
+let lib = require('../../lib');
 
 function* bole () {
     this.response.set("Content-Type", "application/json;charset=utf-8");
 
-    let resBody = yield requestPromise.parseBody('http://top.jobbole.com/').then((body) => {
+    let resBody = yield lib.parseBody('http://top.jobbole.com/').then((body) => {
         return body;
     });
 
@@ -53,11 +53,7 @@ function* bole () {
     //         listSubjectUrl: '#',
     //         listSubjectText: '无' }
 
-    let arr = [];
-
-    for (let i = 0, len = boleLists.length; i < len; i++) {
-        arr.push(boleLists[i]);
-    }
+    let arr = lib.listToArr(boleLists);
 
     this.response.body = {
         postLists:arr

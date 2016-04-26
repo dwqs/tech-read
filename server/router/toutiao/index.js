@@ -7,25 +7,19 @@
 let $ = require('cheerio');
 //let coRequest = require('co-request');
 
-let requestPromise = require('../../lib');
+let lib = require('../../lib');
 
 function* toutiao() {
-    // let resBody = request('http://toutiao.io/', (error, response, body) => {
-    //     if(!error && response.statusCode == 200){
-    //         return body;
-    //     } else {
-    //         return reponseBody;
-    //     }
-    // });
+    
     this.response.set("Content-Type", "application/json;charset=utf-8");
 
-    let resBody = yield requestPromise.parseBody('http://toutiao.io/').then((body) => {
+    let resBody = yield lib.parseBody('http://toutiao.io/').then((body) => {
         return body;
     });
 
     let lists = $(resBody).find('.posts').first().children('.post');
 
-    let toutiaoPrevLists = lists.map((index, list) => {
+    let toutiaoLists = lists.map((index, list) => {
         let titleObj = $(list).find('.title');
         let title = titleObj.text();
         let originUrl = titleObj.children('a').attr('href');
@@ -45,11 +39,7 @@ function* toutiao() {
         };
     });
 
-    let arr = [];
-
-    for (let i = 0, len = toutiaoPrevLists.length; i < len; i++) {
-        arr.push(toutiaoPrevLists[i]);
-    }
+    let arr = lib.listToArr(toutiaoLists);
 
     this.response.body = {
         postLists:arr
@@ -71,7 +61,7 @@ function* toutiaoArticle() {
      */
     // let result = yield coRequest(origin);
     // url = result.client._httpMessage._headers.host + result.client._httpMessage.path;
-    let url = yield requestPromise.parseUrl(origin).then((path) => {
+    let url = yield lib.parseUrl(origin).then((path) => {
         return path;
     });
     this.body = JSON.stringify({
@@ -84,7 +74,7 @@ function* toutiaotPrev () {
 
     let prevUrl = this.request.get('x-custom-header');
 
-    let resBody = yield requestPromise.parseBody(prevUrl).then((body) => {
+    let resBody = yield lib.parseBody(prevUrl).then((body) => {
         return body;
     });
 
@@ -110,12 +100,8 @@ function* toutiaotPrev () {
         };
     });
 
-    let arr = [];
-
-    for (let i = 0, len = toutiaoPrevLists.length; i < len; i++) {
-        arr.push(toutiaoPrevLists[i]);
-    }
-
+    let arr = lib.listToArr(toutiaoPrevLists);
+    
     this.response.body = {
         postLists:arr
     };

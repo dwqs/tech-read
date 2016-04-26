@@ -7,12 +7,12 @@
 let $ = require('cheerio');
 //let coRequest = require('co-request');
 
-let requestPromise = require('../../lib');
+let lib = require('../../lib');
 
 function* geek () {
     this.response.set("Content-Type", "application/json;charset=utf-8");
 
-    let resBody = yield requestPromise.parseBody('http://geek.csdn.net/').then((body) => {
+    let resBody = yield lib.parseBody('http://geek.csdn.net/').then((body) => {
         return body;
     });
 
@@ -37,11 +37,7 @@ function* geek () {
         };
     });
 
-    let arr = [];
-
-    for (let i = 0, len = geekLists.length; i < len; i++) {
-        arr.push(geekLists[i]);
-    }
+    let arr = lib.listToArr(geekLists);
 
     this.response.body = {
         postLists:arr

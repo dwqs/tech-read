@@ -34,3 +34,14 @@ exports.parseBody = function (url) {
         });
     });
 };
+
+exports.listToArr = function (lists) {
+    let len = lists.length;
+    let arr = [];
+
+    for (let i = 0; i < len; i++) {
+        arr.push(lists[i]);
+    }
+    
+    return arr;
+};
