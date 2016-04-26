@@ -17,7 +17,8 @@ function* toutiao() {
         return body;
     });
 
-    let lists = $(resBody).find('.posts').first().children('.post');
+    let postList = $(resBody).find('.posts');
+    let lists = postList.first().children('.post');
 
     let toutiaoLists = lists.map((index, list) => {
         let titleObj = $(list).find('.title');
@@ -76,34 +77,43 @@ function* toutiaotPrev () {
 
     let resBody = yield lib.parseBody(prevUrl).then((body) => {
         return body;
+    },(err) => {
+        console.log('reject',err);
+        return 404;
     });
+    
+    let arr = [];
+    let hasNext = 0;
 
-    let lists = $(resBody).find('.post');
+    if(resBody !== 404){
+        let lists = $(resBody).find('.post');
+        hasNext = 1;
+        let toutiaoPrevLists = lists.map((index, list) => {
+            let titleObj = $(list).find('.title');
+            let title = titleObj.text();
+            let originUrl = titleObj.children('a').attr('href');
+            let meta = $(list).find('.meta')[0].firstChild.nodeValue;
+            let avatarUrl = $(list).find('img').attr('src');
+            let subjectUrl = $(list).find('.subject-name a').attr('href');
+            let subjectOriginUrl = `http://toutiao.io${subjectUrl}`;
+            let subjectText = $(list).find('.subject-name a').text();
 
-    let toutiaoPrevLists = lists.map((index, list) => {
-        let titleObj = $(list).find('.title');
-        let title = titleObj.text();
-        let originUrl = titleObj.children('a').attr('href');
-        let meta = $(list).find('.meta')[0].firstChild.nodeValue;
-        let avatarUrl = $(list).find('img').attr('src');
-        let subjectUrl = $(list).find('.subject-name a').attr('href');
-        let subjectOriginUrl = `http://toutiao.io${subjectUrl}`;
-        let subjectText = $(list).find('.subject-name a').text();
+            return {
+                listTitle:title,
+                listOriginUrl: originUrl,
+                listMeta: meta,
+                listAvatarUrl: avatarUrl,
+                listSubjectUrl: subjectOriginUrl,
+                listSubjectText: subjectText
+            };
+        });
 
-        return {
-            listTitle:title,
-            listOriginUrl: originUrl,
-            listMeta: meta,
-            listAvatarUrl: avatarUrl,
-            listSubjectUrl: subjectOriginUrl,
-            listSubjectText: subjectText
-        };
-    });
-
-    let arr = lib.listToArr(toutiaoPrevLists);
+        arr = lib.listToArr(toutiaoPrevLists);
+    }
     
     this.response.body = {
-        postLists:arr
+        postLists:arr,
+        hasNext: hasNext
     };
 }
 

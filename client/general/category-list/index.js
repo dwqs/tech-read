@@ -45,18 +45,18 @@ export default class CategoryList extends Component {
     componentWillUnmount (){
         techReadActions = null;
         techReadStore = null;
-        window.removeEventListener('scroll');
+        //window.removeEventListener('scroll');
     }
 
     componentDidMount (){
-        let lists = document.getElementsByClassName('lists')[0];
-        window.addEventListener('scroll', (e) => {
-            if (e.target.body.scrollTop >= 90){
-                lists.classList.add('fixed-list');
-            } else {
-                lists.classList.remove('fixed-list');
-            }
-        }, false);
+        //let lists = document.getElementsByClassName('lists')[0];
+        // window.addEventListener('scroll', (e) => {
+        //     if (e.target.body.scrollTop >= 90){
+        //         lists.classList.add('fixed-list');
+        //     } else {
+        //         lists.classList.remove('fixed-list');
+        //     }
+        // }, false);
     }
 
     renderCategoryList (){

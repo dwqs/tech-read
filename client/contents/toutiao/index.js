@@ -8,7 +8,7 @@ import './index.less';
 
 import React, {Component} from 'react';
 
-import {$,_} from '../../lib/base';
+import {_} from '../../lib/base';
 import {timeConvert} from '../../lib/time-convert';
 
 import Loading from '../../general/loading/index';
@@ -27,7 +27,8 @@ export default class TouTiaoContent extends Component {
             origin: 'http://toutiao.io',
             postLists: [],
             loading: false,
-            nextFetchUrl: 'http://toutiao.io/prev'
+            nextFetchUrl: 'http://toutiao.io/prev',
+            hasNext: 1   //1有0无
         };
     }
 
@@ -62,7 +63,8 @@ export default class TouTiaoContent extends Component {
             this.currentDayMill = new Date(day).getTime();
             this.setState({
                 loading: false,
-                postLists: this.state.postLists.concat(json.postLists)
+                postLists: this.state.postLists.concat(json.postLists),
+                hasNext: json.hasNext
             });
         });
     }
@@ -81,7 +83,7 @@ export default class TouTiaoContent extends Component {
             let triggerNextMinHeight = e.target.scrollHeight - e.target.scrollTop - contentsHeight;
             if(triggerNextMinHeight < 22) {
                 //locked
-                if(!!!_self.state.loading){
+                if(!!!_self.state.loading && this.state.hasNext){
                     //grab prev day data
                     _self.fetchNext(_self.currentDayMill - _self.oneDayMill);
                     _self.setState({
@@ -152,7 +154,9 @@ export default class TouTiaoContent extends Component {
 
     render (){
         let toutiaoPosts = this.renderPostList();
-        let loading = this.state.loading ? <div className="next-loading">正在加载....</div>:'';
+        let loading = this.state.loading ?
+                <div className="next-loading">正在加载....</div>
+                : !this.state.hasNext ? <div className="next-loading">没有更多了</div>:'';
 
 
         if(this.state.fetching) {
