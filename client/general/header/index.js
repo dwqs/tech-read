@@ -20,6 +20,9 @@ export default class Header extends Component {
                     <span className="logo-text">Tech Daily Read</span>
                     <span className="logo-text-desc">Grab tech articles daily from UGC communities for reading</span>
                 </div>
+                <div className="star-me">
+                    <a href="https://github.com/dwqs/tech-read" target="_blank">Star Me</a>
+                </div>
             </header>
         );
     }
