@@ -45,3 +45,16 @@ exports.listToArr = function (lists) {
     
     return arr;
 };
+
+//all router handler
+// exports.allRouter = function (router) {
+//     return function* () {
+//         router.get('*', function* () {
+//             console.log('sssss', this.request.path);
+//             this.response.set("Content-Type", "application/json;charset=utf-8");
+//             //max-age:以秒为单位
+//             this.respones.set("Cache-Conteol", "max-age=60*60");
+//             yield next;
+//         });
+//     }
+// };

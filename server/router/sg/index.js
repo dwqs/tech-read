@@ -10,7 +10,7 @@ let $ = require('cheerio');
 let lib = require('../../lib');
 
 function* sg () {
-    this.response.set("Content-Type", "application/json;charset=utf-8");
+    //this.response.set("Content-Type", "application/json;charset=utf-8");
 
     let resBody = yield lib.parseBody('https://segmentfault.com/blogs').then((body) => {
         return body;

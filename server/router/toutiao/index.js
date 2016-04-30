@@ -10,8 +10,7 @@ let $ = require('cheerio');
 let lib = require('../../lib');
 
 function* toutiao() {
-    
-    this.response.set("Content-Type", "application/json;charset=utf-8");
+    //this.response.set("Content-Type", "application/json;charset=utf-8");
 
     let resBody = yield lib.parseBody('http://toutiao.io/').then((body) => {
         return body;
@@ -48,7 +47,7 @@ function* toutiao() {
 }
 
 function* toutiaoArticle() {
-    this.response.set("Content-Type", "application/json;charset=utf-8");
+    //this.response.set("Content-Type", "application/json;charset=utf-8");
 
     let origin = this.request.get('x-custom-header');
 
@@ -71,7 +70,7 @@ function* toutiaoArticle() {
 }
 
 function* toutiaotPrev () {
-    this.response.set("Content-Type", "application/json;charset=utf-8");
+    //this.response.set("Content-Type", "application/json;charset=utf-8");
 
     let prevUrl = this.request.get('x-custom-header');
 

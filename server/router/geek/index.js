@@ -10,7 +10,7 @@ let $ = require('cheerio');
 let lib = require('../../lib');
 
 function* geek () {
-    this.response.set("Content-Type", "application/json;charset=utf-8");
+    //this.response.set("Content-Type", "application/json;charset=utf-8");
 
     let resBody = yield lib.parseBody('http://geek.csdn.net/').then((body) => {
         return body;

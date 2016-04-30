@@ -14,6 +14,7 @@ let bodyParser = require('koa-bodyparser');
 
 let path = require('path');
 
+let lib = require('./lib');
 let routerRegister = require('./router/index');
 
 let app = koa();

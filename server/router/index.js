@@ -6,6 +6,7 @@
 
 let router = require('koa-router')();
 
+require('./common/index').register(router);
 require('./bole/index').register(router);
 require('./geek/index').register(router);
 require('./sg/index').register(router);
