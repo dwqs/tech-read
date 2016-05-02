@@ -7,7 +7,7 @@
 function* common(next) {
     this.response.set("Content-Type", "application/json;charset=utf-8");
     //max-age:以秒为单位
-    this.response.set("Cache-Control", "max-age=3600");
+    this.response.set("Cache-Control", "max-age=1800");
     yield next;
 }
 
