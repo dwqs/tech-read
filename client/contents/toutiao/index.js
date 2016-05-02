@@ -7,6 +7,7 @@
 import './index.less';
 
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 
 import {_} from '../../lib/base';
 import {timeConvert} from '../../lib/time-convert';
@@ -45,7 +46,7 @@ export default class TouTiaoContent extends Component {
         });
     }
 
-    fetchNext (utc){
+    fetchPrev (utc){
         let day = timeConvert(utc);
 
         let preUrl = `${this.state.nextFetchUrl}/${day}`;
@@ -71,7 +72,8 @@ export default class TouTiaoContent extends Component {
 
     componentDidMount (){
         let _self = this;
-        let contents = document.getElementsByClassName('toutiao-contents')[0];
+        //let contents = document.getElementsByClassName('toutiao-contents')[0];
+        let contents = ReactDOM.findDOMNode(this);
         let contentsHeight = contents.getBoundingClientRect().height;
 
         /**
@@ -85,7 +87,7 @@ export default class TouTiaoContent extends Component {
                 //locked
                 if(!!!_self.state.loading && this.state.hasNext){
                     //grab prev day data
-                    _self.fetchNext(_self.currentDayMill - _self.oneDayMill);
+                    _self.fetchPrev(_self.currentDayMill - _self.oneDayMill);
                     _self.setState({
                         loading: true
                     });
