@@ -28,7 +28,7 @@ export default class TouTiaoContent extends Component {
             origin: 'http://toutiao.io',
             postLists: [],
             loading: false,
-            nextFetchUrl: 'http://toutiao.io/prev',
+            moreFetchUrl: 'http://toutiao.io/prev',
             hasNext: 1   //1有0无
         };
     }
@@ -49,7 +49,7 @@ export default class TouTiaoContent extends Component {
     fetchPrev (utc){
         let day = timeConvert(utc);
 
-        let preUrl = `${this.state.nextFetchUrl}/${day}`;
+        let preUrl = `${this.state.moreFetchUrl}/${day}`;
         let initHeaders = new Headers({
             'X-Custom-Header': preUrl
         });
@@ -70,6 +70,22 @@ export default class TouTiaoContent extends Component {
         });
     }
 
+    scrollListener (contentsHeight,e){
+        let _self = this;
+
+        let triggerNextMinHeight = e.target.scrollHeight - e.target.scrollTop - contentsHeight;
+        if(triggerNextMinHeight < 22) {
+            //locked
+            if(!!!_self.state.loading && this.state.hasNext){
+                //grab prev day data
+                _self.fetchPrev(_self.currentDayMill - _self.oneDayMill);
+                _self.setState({
+                    loading: true
+                });
+            }
+        }
+    }
+
     componentDidMount (){
         let _self = this;
         //let contents = document.getElementsByClassName('toutiao-contents')[0];
@@ -81,19 +97,14 @@ export default class TouTiaoContent extends Component {
          * e.target.scrollTop 是滚动的高度 其最大值是e.target.scrollHeight-contentHeight(被隐藏的高度)
          * contentsHeight 元素本身的高度
          */
-        contents.addEventListener('scroll', (e) => {
-            let triggerNextMinHeight = e.target.scrollHeight - e.target.scrollTop - contentsHeight;
-            if(triggerNextMinHeight < 22) {
-                //locked
-                if(!!!_self.state.loading && this.state.hasNext){
-                    //grab prev day data
-                    _self.fetchPrev(_self.currentDayMill - _self.oneDayMill);
-                    _self.setState({
-                        loading: true
-                    });
-                }
-            }
-        },false);
+        contents.addEventListener('scroll',_self.scrollListener.bind(this,contentsHeight),false);
+    }
+
+    componentWillUnmount (){
+        let _self = this;
+
+        let contents = ReactDOM.findDOMNode(this);
+        contents.removeEventListener('scroll',_self.scrollListener);
     }
 
     listener (originUrl){
