@@ -8,6 +8,7 @@ let $ = require('cheerio');
 //let coRequest = require('co-request');
 
 let lib = require('../../lib');
+let toutiaoLib = require('./toutiaoLib');
 
 function* toutiao() {
     //this.response.set("Content-Type", "application/json;charset=utf-8");
@@ -18,27 +19,7 @@ function* toutiao() {
 
     let postList = $(resBody).find('.posts');
     let lists = postList.first().children('.post');
-
-    let toutiaoLists = lists.map((index, list) => {
-        let titleObj = $(list).find('.title');
-        let title = titleObj.text();
-        let originUrl = titleObj.children('a').attr('href');
-        let meta = $(list).find('.meta')[0].firstChild.nodeValue;;
-        let avatarUrl = $(list).find('img').attr('src');;
-        let subjectUrl = $(list).find('.subject-name a').attr('href');
-        let subjectOriginUrl = `http://toutiao.io${subjectUrl}`;
-        let subjectText = $(list).find('.subject-name a').text();
-
-        return {
-            listTitle:title,
-            listOriginUrl: originUrl,
-            listMeta: meta,
-            listAvatarUrl: avatarUrl,
-            listSubjectUrl: subjectOriginUrl,
-            listSubjectText: subjectText
-        };
-    });
-
+    let toutiaoLists = toutiaoLib.parseList(lists);
     let arr = lib.listToArr(toutiaoLists);
 
     this.response.body = {
@@ -87,26 +68,7 @@ function* toutiaotPrev () {
     if(resBody !== 404){
         let lists = $(resBody).find('.post');
         hasNext = 1;
-        let toutiaoPrevLists = lists.map((index, list) => {
-            let titleObj = $(list).find('.title');
-            let title = titleObj.text();
-            let originUrl = titleObj.children('a').attr('href');
-            let meta = $(list).find('.meta')[0].firstChild.nodeValue;
-            let avatarUrl = $(list).find('img').attr('src');
-            let subjectUrl = $(list).find('.subject-name a').attr('href');
-            let subjectOriginUrl = `http://toutiao.io${subjectUrl}`;
-            let subjectText = $(list).find('.subject-name a').text();
-
-            return {
-                listTitle:title,
-                listOriginUrl: originUrl,
-                listMeta: meta,
-                listAvatarUrl: avatarUrl,
-                listSubjectUrl: subjectOriginUrl,
-                listSubjectText: subjectText
-            };
-        });
-
+        let toutiaoPrevLists = toutiaoLib.parseList(lists);
         arr = lib.listToArr(toutiaoPrevLists);
     }
     

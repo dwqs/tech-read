@@ -8,39 +8,15 @@ let $ = require('cheerio');
 //let coRequest = require('co-request');
 
 let lib = require('../../lib');
+let sgLib = require('./sgLib');
 
 function* sg () {
-    //this.response.set("Content-Type", "application/json;charset=utf-8");
-
     let resBody = yield lib.parseBody('https://segmentfault.com/blogs').then((body) => {
         return body;
     });
 
-    let origin = 'https://segmentfault.com';
     let lists = $(resBody).find('.stream-list').children();
-
-    let sgLists = lists.map((index, list) => {
-        let titleObj = $(list).find('.title a');
-        let title = titleObj.text();
-        let originUrl = origin + titleObj.attr('href');
-        let metaAuthor = $(list).find('.author a:first-child').text();
-        let metaTime = $(list).find('.author .split')[0].nextSibling.nodeValue;
-        let avatarUrl = $(list).find('.author img').attr('src');
-        let a = $(list).find('.author a')[1];
-        let subjectUrl = origin + a.attribs.href;
-        let subjectText = a.children[0].data;
-
-        return {
-            listTitle:title,
-            listOriginUrl: originUrl,
-            listMetaAuthor: metaAuthor,
-            listTime: metaTime,
-            listAvatarUrl: avatarUrl,
-            listSubjectUrl: subjectUrl,
-            listSubjectText: subjectText
-        };
-    });
-
+    let sgLists = sgLib.parseList(lists);
     let arr = lib.listToArr(sgLists);
 
     this.response.body = {

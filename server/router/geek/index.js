@@ -8,6 +8,7 @@ let $ = require('cheerio');
 //let coRequest = require('co-request');
 
 let lib = require('../../lib');
+let geekLib = require('./geekLib');
 
 function* geek () {
     let resBody = yield lib.parseBody('http://geek.csdn.net/').then((body) => {
@@ -15,26 +16,7 @@ function* geek () {
     });
 
     let lists = $(resBody).find('#geek_list').children('.geek_list');
-
-    let geekLists = lists.map((index, list) => {
-        let titleObj = $(list).find('.tracking-ad .title');
-        let title = titleObj.text();
-        let originUrl = titleObj.attr('href');
-        let meta = $(list).find('.list-inline a')[0].firstChild.nodeValue;
-        let avatarUrl = $(list).find('img').attr('src');
-        let subjectUrl = $(list).find('.list-inline a').length === 1 ? $(list).find('.list-inline a').attr('href') : $(list).find('.list-inline a').last().attr('href');
-        let subjectText = $(list).find('.list-inline a').length === 1 ? $(list).find('.list-inline a').text() : $(list).find('.list-inline a').last().text();
-
-        return {
-            listTitle:title,
-            listOriginUrl: originUrl,
-            listMeta: meta,
-            listAvatarUrl: avatarUrl,
-            listSubjectUrl: subjectUrl,
-            listSubjectText: subjectText
-        };
-    });
-
+    let geekLists = geekLib.parseList(lists);
     let arr = lib.listToArr(geekLists);
 
     this.response.body = {
@@ -52,28 +34,11 @@ function* geekPrev() {
 
     let container = $('<div></div>');
     container.append(resBody.html);
+
     let lists = container.find('.geek_list');
-
-    let geekPrevLists = lists.map((index, list) => {
-        let titleObj = $(list).find('.tracking-ad .title');
-        let title = titleObj.text();
-        let originUrl = titleObj.attr('href');
-        let meta = $(list).find('.list-inline a')[0].firstChild.nodeValue;
-        let avatarUrl = $(list).find('img').attr('src');
-        let subjectUrl = $(list).find('.list-inline a').length === 1 ? $(list).find('.list-inline a').attr('href') : $(list).find('.list-inline a').last().attr('href');
-        let subjectText = $(list).find('.list-inline a').length === 1 ? $(list).find('.list-inline a').text() : $(list).find('.list-inline a').last().text();
-
-        return {
-            listTitle:title,
-            listOriginUrl: originUrl,
-            listMeta: meta,
-            listAvatarUrl: avatarUrl,
-            listSubjectUrl: subjectUrl,
-            listSubjectText: subjectText
-        };
-    });
-
+    let geekPrevLists = geekLib.parseList(lists);
     let arr = lib.listToArr(geekPrevLists);
+
     container = null;
 
     this.response.body = {
