@@ -43,43 +43,43 @@ function* geek () {
 }
 
 function* geekPrev() {
-    let resBody = yield lib.parseBody('http://geek.csdn.net/service/news/get_news_list?size=2').then((body) => {
+    let from = this.request.get('x-custom-header');
+    let url = `http://geek.csdn.net/service/news/get_news_list?size=20&from=${from}`;
+
+    let resBody = yield lib.parseBody(url).then((body) => {
         return JSON.parse(body);
     });
 
-    let lists = $(resBody.html)//.find('.geek_list');
-    //匹配dl标签 进行替换
-    console.log('ssssjjj',resBody.html);
+    let container = $('<div></div>');
+    container.append(resBody.html);
+    let lists = container.find('.geek_list');
 
-    // for(let prop in $(resBody.html)){
-    //     console.log('pppp',prop);
-    // }
+    let geekPrevLists = lists.map((index, list) => {
+        let titleObj = $(list).find('.tracking-ad .title');
+        let title = titleObj.text();
+        let originUrl = titleObj.attr('href');
+        let meta = $(list).find('.list-inline a')[0].firstChild.nodeValue;
+        let avatarUrl = $(list).find('img').attr('src');
+        let subjectUrl = $(list).find('.list-inline a').length === 1 ? $(list).find('.list-inline a').attr('href') : $(list).find('.list-inline a').last().attr('href');
+        let subjectText = $(list).find('.list-inline a').length === 1 ? $(list).find('.list-inline a').text() : $(list).find('.list-inline a').last().text();
 
+        return {
+            listTitle:title,
+            listOriginUrl: originUrl,
+            listMeta: meta,
+            listAvatarUrl: avatarUrl,
+            listSubjectUrl: subjectUrl,
+            listSubjectText: subjectText
+        };
+    });
 
-    // let geekPrevLists = lists.map((index, list) => {
-    //     let titleObj = $(list).find('.tracking-ad .title');
-    //     let title = titleObj.text();
-    //     let originUrl = titleObj.attr('href');
-    //     let meta = $(list).find('.list-inline a')[0].firstChild.nodeValue;
-    //     let avatarUrl = $(list).find('img').attr('src');
-    //     let subjectUrl = $(list).find('.list-inline a').length === 1 ? $(list).find('.list-inline a').attr('href') : $(list).find('.list-inline a').last().attr('href');
-    //     let subjectText = $(list).find('.list-inline a').length === 1 ? $(list).find('.list-inline a').text() : $(list).find('.list-inline a').last().text();
-    //
-    //     return {
-    //         listTitle:title,
-    //         listOriginUrl: originUrl,
-    //         listMeta: meta,
-    //         listAvatarUrl: avatarUrl,
-    //         listSubjectUrl: subjectUrl,
-    //         listSubjectText: subjectText
-    //     };
-    // });
-
-    let arr = lib.listToArr([]);
+    let arr = lib.listToArr(geekPrevLists);
+    container = null;
 
     this.response.body = {
         postLists:arr,
-        hasNext: resBody.has_more
+        hasNext: resBody.has_more,
+        from: resBody.from
     };
 }
 

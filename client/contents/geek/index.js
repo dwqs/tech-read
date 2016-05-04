@@ -23,6 +23,7 @@ export default class GeekContent extends Component {
             fetching: true,
             postLists: [],
             loading: false,
+            from:'-',
             hasNext: true   //true有false无
         };
     }
@@ -41,7 +42,13 @@ export default class GeekContent extends Component {
     }
 
     fetchPrev (){
-        fetch('/geek/prev').then((res) => {
+        let initHeaders = new Headers({
+            'X-Custom-Header': this.state.from
+        });
+
+        fetch('/geek/prev',{
+            headers:initHeaders
+        }).then((res) => {
             return res.json();
         },(err)=>{
             console.log('error',err);
@@ -49,7 +56,8 @@ export default class GeekContent extends Component {
             this.setState({
                 loading: false,
                 postLists: this.state.postLists.concat(json.postLists),
-                hasNext: json.hasNext
+                hasNext: json.hasNext,
+                from: json.from
             });
         });
     }
