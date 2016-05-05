@@ -24,6 +24,30 @@ function* sg () {
     };
 }
 
+function*  sgPrev() {
+    let prevUrl = this.request.get('x-custom-header');
+    let resBody = yield lib.parseBody(prevUrl).then((body) => {
+        return body;
+    });
+
+    let arr = [];
+    let hasNext = 0;
+    let lists = $(resBody).find('.stream-list').children();
+
+    if (lists.length > 0) {
+        hasNext = 1;
+        let boleLists = sgLib.parseList(lists);
+        arr = lib.listToArr(boleLists);
+    }
+
+
+    this.response.body = {
+        postLists: arr,
+        hasNext  : hasNext
+    };
+}
+
 module.exports.register = (router) => {
-    router.get('/sg', sg)
+    router.get('/sg', sg);
+    router.get('/sg/prev', sgPrev);
 };

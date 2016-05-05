@@ -7,6 +7,7 @@
 import './index.less';
 
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 
 import {_} from '../../lib/base';
 
@@ -20,7 +21,11 @@ export default class SegmentFault extends Component {
             id: 3,
             url: 'https://segmentfault.com/blogs',
             fetching: true,
-            postLists: []
+            postLists: [],
+            loading: false,
+            curPage: 1,
+            hasNext: 1,   //1有0无
+            moreFetchUrl: 'https://segmentfault.com/blogs?page='
         };
     }
 
@@ -35,6 +40,64 @@ export default class SegmentFault extends Component {
                 postLists: json.postLists
             });
         });
+    }
+
+    fetchPrev (){
+        let preUrl = `${this.state.moreFetchUrl}${++this.state.curPage}`;
+        let initHeaders = new Headers({
+            'X-Custom-Header': preUrl
+        });
+
+        fetch('/sg/prev',{
+            headers:initHeaders
+        }).then((res) => {
+            return res.json();
+        },(err)=>{
+            console.log('error',err);
+        }).then((json) => {
+            this.setState({
+                loading: false,
+                postLists: this.state.postLists.concat(json.postLists),
+                hasNext: json.hasNext
+            });
+        });
+    }
+
+    scrollListener (contentsHeight,e){
+        let _self = this;
+
+        let triggerNextMinHeight = e.target.scrollHeight - e.target.scrollTop - contentsHeight;
+        if(triggerNextMinHeight < 22) {
+            //locked
+            if(!!!_self.state.loading && this.state.hasNext){
+                //grab prev day data
+                _self.fetchPrev();
+                _self.setState({
+                    loading: true
+                });
+            }
+        }
+    }
+
+    componentDidMount (){
+        let _self = this;
+        //let contents = document.getElementsByClassName('toutiao-contents')[0];
+        let contents = ReactDOM.findDOMNode(this);
+        let contentsHeight = contents.getBoundingClientRect().height;
+
+        /**
+         * e.target.scrollHeight 是元素的可见高度加不可见的高度
+         * e.target.scrollTop 是滚动的高度 其最大值是e.target.scrollHeight-contentHeight(被隐藏的高度)
+         * contentsHeight 元素本身的高度
+         */
+        contents.addEventListener('scroll',_self.scrollListener.bind(this,contentsHeight),false);
+    }
+
+    componentWillUnmount (){
+        let _self = this;
+
+        let contents = ReactDOM.findDOMNode(this);
+        contents.removeEventListener('scroll',_self.scrollListener);
     }
 
     listener (originUrl){
@@ -83,6 +146,9 @@ export default class SegmentFault extends Component {
 
     render (){
         let sgPosts = this.renderPostList();
+        let loading = this.state.loading ?
+            <div className="next-loading">正在加载....</div>
+            : !this.state.hasNext ? <div className="next-loading">没有更多了</div>:'';
 
         if(this.state.fetching) {
             return (
@@ -94,6 +160,7 @@ export default class SegmentFault extends Component {
         return (
             <div className="xitu-contents">
                 {sgPosts}
+                {loading}
             </div>
         );
     }
