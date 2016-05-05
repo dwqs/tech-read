@@ -41,6 +41,31 @@ function* bole () {
     //         listSubjectText: '无' }
 }
 
+function*  bolePrev() {
+    let prevUrl = this.request.get('x-custom-header');
+    let resBody = yield lib.parseBody(prevUrl).then((body) => {
+        return body;
+    });
+
+    let arr = [];
+    let hasNext = 0;
+    let posts = $(resBody).find('.list-posts');
+
+    if(posts[0]) {
+        hasNext = 1;
+        let lists = posts.children().not('.sponsored');
+        let boleLists = boleLib.parseList(lists);
+        arr = lib.listToArr(boleLists);
+    }
+
+
+    this.response.body = {
+        postLists:arr,
+        hasNext: hasNext
+    };
+}
+
 module.exports.register = (router) => {
     router.get('/bole', bole);
+    router.get('/bole/prev', bolePrev);
 };
