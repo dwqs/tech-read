@@ -28,9 +28,12 @@ let _data = {
         id: 3,
         url: 'https://segmentfault.com/blogs',
         title: 'SegmentFault'
+    },{
+        id: 4,
+        url: 'http://www.tuicool.com/ah/',
+        title: '推酷'
     }]
 };
-//稀土·掘金
 
 
 let _store = {};

@@ -12,6 +12,7 @@ import TouTiaoContent from '../../contents/toutiao/index';
 import GeekContent from '../../contents/geek/index';
 import BoleContent from '../../contents/bole/index';
 import SegmentFault from '../../contents/sg/index';
+import TuiCool from '../../contents/tuicool/index';
 
 import {TechReadStore} from '../../stores/tech-read-store';
 
@@ -67,6 +68,9 @@ export default class CategoryContent extends Component {
             break;
         case 3:
             renderContents = <SegmentFault open={this.openIframe.bind(this)}/>;
+            break;
+        case 4:
+            renderContents = <TuiCool open={this.openIframe.bind(this)} />;
             break;
         }
 
