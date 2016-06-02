@@ -4,7 +4,7 @@
 
 'use strict';
 
-import './index.less';
+import '../common/contents.less';
 
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
