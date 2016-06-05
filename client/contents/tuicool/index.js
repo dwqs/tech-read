@@ -19,48 +19,48 @@ export default class TuiCool extends Component {
         super ();
         this.state = {
             id: 4,
-            url: 'http://www.tuicool.com/ah/',
+            url: 'http://www.tuicool.com/ah/0?lang=0',
             fetching: true,
             postLists: [],
             loading: false,
             curPage: 1,
             hasNext: 1,   //1有0无
-            moreFetchUrl: 'ttp://www.tuicool.com/ah/0/'
+            moreFetchUrl: `http://www.tuicool.com/ah/0/{page}?lang=0`
         };
     }
 
     componentWillMount (){
-        // fetch('/tc').then((response) => {
-        //     return response.json();
-        // },(err)=>{
-        //     console.log('error',err);
-        // }).then((json) => {
-        //     this.setState({
-        //         fetching: false,
-        //         postLists: json.postLists
-        //     });
-        // });
-    }
-
-    fetchPrev (){
-        let preUrl = `${this.state.moreFetchUrl}/${++this.state.curPage}`;
-        let initHeaders = new Headers({
-            'X-Custom-Header': preUrl
-        });
-
-        fetch('/tc/prev',{
-            headers:initHeaders
-        }).then((res) => {
-            return res.json();
+        fetch('/tc').then((response) => {
+            return response.json();
         },(err)=>{
             console.log('error',err);
         }).then((json) => {
             this.setState({
-                loading: false,
-                postLists: this.state.postLists.concat(json.postLists),
-                hasNext: json.hasNext
+                fetching: false,
+                postLists: json.postLists
             });
         });
+    }
+
+    fetchPrev (){
+        // let preUrl = `${this.state.moreFetchUrl}/${++this.state.curPage}`;
+        // let initHeaders = new Headers({
+        //     'X-Custom-Header': preUrl
+        // });
+        //
+        // fetch('/tc/prev',{
+        //     headers:initHeaders
+        // }).then((res) => {
+        //     return res.json();
+        // },(err)=>{
+        //     console.log('error',err);
+        // }).then((json) => {
+        //     this.setState({
+        //         loading: false,
+        //         postLists: this.state.postLists.concat(json.postLists),
+        //         hasNext: json.hasNext
+        //     });
+        // });
     }
 
     scrollListener (contentsHeight,e){
@@ -117,10 +117,8 @@ export default class TuiCool extends Component {
         _.forEach(this.state.postLists, (list) => {
             let title = list.listTitle;
             let originUrl = list.listOriginUrl;
-            let author = list.listMetaAuthor;
             let time = list.listTime;
             let avatarUrl = list.listAvatarUrl;
-            let subjectUrl = list.listSubjectUrl;
             let subjectText = list.listSubjectText;
 
             posts.push(
@@ -129,14 +127,14 @@ export default class TuiCool extends Component {
                         <h3 className="title">
                             <a target="_blank" href={originUrl}>{title}</a>
                         </h3>
-                        <div className="meta">{author}&nbsp;{time}</div>
+                        <div className="meta">{time}</div>
                     </div>
                     <div className="user-info">
                         <div className="user-avatar">
                             <img width="32" className="img-circle" src={avatarUrl} />
                         </div>
                     </div>
-                    <div className="subject-name">来自 <a target="_blank" href={subjectUrl}>{subjectText}</a></div>
+                    <div className="subject-name">来自 <a href='void:javascript;'>{subjectText}</a></div>
                 </div>
             );
         });
@@ -150,22 +148,17 @@ export default class TuiCool extends Component {
             <div className="next-loading">正在加载....</div>
             : !this.state.hasNext ? <div className="next-loading">没有更多了</div>:'';
 
-        // if(this.state.fetching) {
-        //     return (
-        //         <div className="xitu-contents">
-        //             <Loading/>
-        //         </div>
-        //     );
-        // }
-        // return (
-        //     <div className="tc-contents">
-        //         {tcPosts}
-        //         {loading}
-        //     </div>
-        // );
+        if(this.state.fetching) {
+            return (
+                <div className="tc-contents">
+                    <Loading/>
+                </div>
+            );
+        }
         return (
             <div className="tc-contents">
-                推酷
+                {tcPosts}
+                {loading}
             </div>
         );
     }
