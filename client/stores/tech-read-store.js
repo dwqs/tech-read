@@ -18,20 +18,20 @@ let _data = {
         title: '开发者头条'
     }, {
         id: 1,
-        url: 'http://geek.csdn.net/',
-        title: '极客头条'
-    }, {
-        id: 2,
-        url: 'http://top.jobbole.com/',
-        title: '伯乐头条'
-    }, {
-        id: 3,
         url: 'https://segmentfault.com/blogs',
         title: 'SegmentFault'
     },{
-        id: 4,
+        id: 2,
         url: 'http://www.tuicool.com/ah/',
         title: '推酷'
+    },{
+        id: 3,
+        url: 'http://geek.csdn.net/',
+        title: '极客头条'
+    }, {
+        id: 4,
+        url: 'http://top.jobbole.com/',
+        title: '伯乐头条'
     }]
 };
 

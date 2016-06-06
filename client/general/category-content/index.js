@@ -61,16 +61,16 @@ export default class CategoryContent extends Component {
             renderContents = <TouTiaoContent open={this.openIframe.bind(this)}/>;
             break;
         case 1:
-            renderContents = <GeekContent open={this.openIframe.bind(this)}/>;
-            break;
-        case 2:
-            renderContents = <BoleContent open={this.openIframe.bind(this)}/>;
-            break;
-        case 3:
             renderContents = <SegmentFault open={this.openIframe.bind(this)}/>;
             break;
-        case 4:
+        case 2:
             renderContents = <TuiCool open={this.openIframe.bind(this)} />;
+            break;
+        case 3:
+            renderContents = <GeekContent open={this.openIframe.bind(this)}/>;
+            break;
+        case 4:
+            renderContents = <BoleContent open={this.openIframe.bind(this)}/>;
             break;
         }
 

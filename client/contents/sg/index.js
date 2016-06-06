@@ -18,7 +18,7 @@ export default class SegmentFault extends Component {
     constructor (){
         super ();
         this.state = {
-            id: 3,
+            id: 1,
             url: 'https://segmentfault.com/blogs',
             fetching: true,
             postLists: [],

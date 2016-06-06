@@ -18,7 +18,7 @@ export default class GeekContent extends Component {
     constructor (){
         super ();
         this.state = {
-            id: 1,
+            id: 3,
             origin: 'http://geek.csdn.net/',
             fetching: true,
             postLists: [],

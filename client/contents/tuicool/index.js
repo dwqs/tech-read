@@ -18,7 +18,7 @@ export default class TuiCool extends Component {
     constructor (){
         super ();
         this.state = {
-            id: 4,
+            id: 2,
             url: 'http://www.tuicool.com/ah/0?lang=0',
             fetching: true,
             postLists: [],

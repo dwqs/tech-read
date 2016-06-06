@@ -18,7 +18,7 @@ export default class BoleContent extends Component {
     constructor (){
         super ();
         this.state = {
-            id: 2,
+            id: 4,
             url: 'http://top.jobbole.com/',
             fetching: true,
             postLists: [],
