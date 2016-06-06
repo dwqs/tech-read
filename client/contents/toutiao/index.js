@@ -18,16 +18,13 @@ export default class TouTiaoContent extends Component {
 
     constructor (){
         super ();
-        //一天的毫秒数
-        this.oneDayMill = +24*60*60*1000;
-        this.currentDayMill = +new Date();
-
         this.state = {
             id: 0,
             fetching: true,
             origin: 'http://toutiao.io',
             postLists: [],
             loading: false,
+            curDate: '',   //请求的日期
             moreFetchUrl: 'http://toutiao.io/prev',
             hasNext: 1   //1有0无
         };
@@ -41,15 +38,16 @@ export default class TouTiaoContent extends Component {
         }).then((json) => {
             this.setState({
                 fetching: false,
-                postLists: json.postLists
+                postLists: json.postLists,
+                curDate: json.curDate
             });
         });
     }
 
-    fetchPrev (utc){
-        let day = timeConvert(utc);
+    fetchPrev (){
+        let preDay = timeConvert(this.state.curDate);
 
-        let preUrl = `${this.state.moreFetchUrl}/${day}`;
+        let preUrl = `${this.state.moreFetchUrl}/${preDay}`;
         let initHeaders = new Headers({
             'X-Custom-Header': preUrl
         });
@@ -61,11 +59,11 @@ export default class TouTiaoContent extends Component {
         },(err)=>{
             console.log('error',err);
         }).then((json) => {
-            this.currentDayMill = new Date(day).getTime();
             this.setState({
                 loading: false,
                 postLists: this.state.postLists.concat(json.postLists),
-                hasNext: json.hasNext
+                hasNext: json.hasNext,
+                curDate: json.curDate
             });
         });
     }
@@ -78,7 +76,7 @@ export default class TouTiaoContent extends Component {
             //locked
             if(!!!_self.state.loading && this.state.hasNext){
                 //grab prev day data
-                _self.fetchPrev(_self.currentDayMill - _self.oneDayMill);
+                _self.fetchPrev();
                 _self.setState({
                     loading: true
                 });

@@ -18,12 +18,14 @@ function* toutiao() {
     });
 
     let postList = $(resBody).find('.posts');
+    let curDate = $(resBody).find('.daily:first-child').find('.date').children('small').text();
     let lists = postList.first().children('.post');
     let toutiaoLists = toutiaoLib.parseList(lists);
     let arr = lib.listToArr(toutiaoLists);
 
     this.response.body = {
-        postLists:arr
+        postLists:arr,
+        curDate: curDate
     };
 }
 
@@ -64,17 +66,20 @@ function* toutiaotPrev () {
     
     let arr = [];
     let hasNext = 0;
+    let curDate = '';
 
     if(resBody !== 404){
         let lists = $(resBody).find('.post');
         hasNext = 1;
+        curDate = $(resBody).find('.date').children('small').text();
         let toutiaoPrevLists = toutiaoLib.parseList(lists);
         arr = lib.listToArr(toutiaoPrevLists);
     }
     
     this.response.body = {
         postLists:arr,
-        hasNext: hasNext
+        hasNext: hasNext,
+        curDate: curDate
     };
 }
 
