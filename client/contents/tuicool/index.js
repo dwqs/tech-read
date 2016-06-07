@@ -19,13 +19,13 @@ export default class TuiCool extends Component {
         super ();
         this.state = {
             id: 2,
-            url: 'http://www.tuicool.com/ah/0?lang=0',
+            url: 'http://www.tuicool.com/ah/20?lang=0',
             fetching: true,
             postLists: [],
             loading: false,
-            curPage: 1,
+            curPage: 0,
             hasNext: 1,   //1有0无
-            moreFetchUrl: `http://www.tuicool.com/ah/0/{page}?lang=0`
+            moreFetchUrl: 'http://www.tuicool.com/ah/20'
         };
     }
 
@@ -43,54 +43,54 @@ export default class TuiCool extends Component {
     }
 
     fetchPrev (){
-        // let preUrl = `${this.state.moreFetchUrl}/${++this.state.curPage}`;
-        // let initHeaders = new Headers({
-        //     'X-Custom-Header': preUrl
-        // });
-        //
-        // fetch('/tc/prev',{
-        //     headers:initHeaders
-        // }).then((res) => {
-        //     return res.json();
-        // },(err)=>{
-        //     console.log('error',err);
-        // }).then((json) => {
-        //     this.setState({
-        //         loading: false,
-        //         postLists: this.state.postLists.concat(json.postLists),
-        //         hasNext: json.hasNext
-        //     });
-        // });
+        let preUrl = `${this.state.moreFetchUrl}/${++this.state.curPage}?lang=0`;
+        let initHeaders = new Headers({
+            'X-Custom-Header': preUrl
+        });
+
+        fetch('/tc/prev',{
+            headers:initHeaders
+        }).then((res) => {
+            return res.json();
+        },(err)=>{
+            console.log('error',err);
+        }).then((json) => {
+            this.setState({
+                loading: false,
+                postLists: this.state.postLists.concat(json.postLists),
+                hasNext: json.hasNext
+            });
+        });
     }
 
     scrollListener (contentsHeight,e){
-        // let _self = this;
-        //
-        // let triggerNextMinHeight = e.target.scrollHeight - e.target.scrollTop - contentsHeight;
-        // if(triggerNextMinHeight < 22) {
-        //     //locked
-        //     if(!!!_self.state.loading && this.state.hasNext){
-        //         //grab prev day data
-        //         _self.fetchPrev();
-        //         _self.setState({
-        //             loading: true
-        //         });
-        //     }
-        // }
+        let _self = this;
+
+        let triggerNextMinHeight = e.target.scrollHeight - e.target.scrollTop - contentsHeight;
+        if(triggerNextMinHeight < 22) {
+            //locked
+            if(!!!_self.state.loading && this.state.hasNext){
+                //grab prev day data
+                _self.fetchPrev();
+                _self.setState({
+                    loading: true
+                });
+            }
+        }
     }
 
     componentDidMount (){
-        // let _self = this;
-        // //let contents = document.getElementsByClassName('toutiao-contents')[0];
-        // let contents = ReactDOM.findDOMNode(this);
-        // let contentsHeight = contents.getBoundingClientRect().height;
-        //
-        // /**
-        //  * e.target.scrollHeight 是元素的可见高度加不可见的高度
-        //  * e.target.scrollTop 是滚动的高度 其最大值是e.target.scrollHeight-contentHeight(被隐藏的高度)
-        //  * contentsHeight 元素本身的高度
-        //  */
-        // contents.addEventListener('scroll',_self.scrollListener.bind(this,contentsHeight),false);
+        let _self = this;
+        //let contents = document.getElementsByClassName('toutiao-contents')[0];
+        let contents = ReactDOM.findDOMNode(this);
+        let contentsHeight = contents.getBoundingClientRect().height;
+
+        /**
+         * e.target.scrollHeight 是元素的可见高度加不可见的高度
+         * e.target.scrollTop 是滚动的高度 其最大值是e.target.scrollHeight-contentHeight(被隐藏的高度)
+         * contentsHeight 元素本身的高度
+         */
+        contents.addEventListener('scroll',_self.scrollListener.bind(this,contentsHeight),false);
     }
 
     componentWillUnmount (){
