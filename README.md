@@ -1,4 +1,4 @@
-Grab tech articles daily from UGC communities, example: toutiao.io etc, site: [Tech-Read](http://tech-read.ido321.com:8080/)
+Grab tech articles daily from UGC communities, example: toutiao.io etc, site: [Tech-Read](http://tech-read.ido321.com/)
 
 ### Running
 
