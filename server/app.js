@@ -33,5 +33,5 @@ routerRegister.register(app);
 //app.use(router.middleware());
 
 app.listen('9001','127.0.0.1',  () => {
-    console.log(process.env.NODE_ENV,'listening on port 9000...');
+    console.log(process.env.NODE_ENV,'listening on port 9001...');
 });
