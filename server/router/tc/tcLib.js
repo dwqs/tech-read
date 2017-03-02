@@ -10,12 +10,12 @@ exports.parseList = function (lists) {
     let origin = 'http://www.tuicool.com';
 
     let tcLists = lists.map((index, list) => {
-        let titleObj = $(list).find('.article_title a');
+        let titleObj = $(list).find('.title a');
         let title = titleObj.attr('title');
         let originUrl = origin + titleObj.attr('href');
-        let metaTime = $(list).find('.meta-tip>span').last().text();
+        let metaTime = $(list).find('.tip>span').last().text();
         let avatarUrl = '/pomy.jpg';
-        let subjectText = $(list).find('.meta-tip .cut28').text();
+        let subjectText = $(list).find('.tip>span').first().text();
 
         return {
             listTitle:title,

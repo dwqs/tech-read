@@ -14,7 +14,7 @@ function* tc () {
         return body;
     });
 
-    let lists = $(resBody).find('.list_article').children();
+    let lists = $(resBody).find('#list_article').children();
     let tcLists = tcLib.parseList(lists);
     let arr = lib.listToArr(tcLists);
 
@@ -31,7 +31,7 @@ function*  tcPrev() {
 
     let arr = [];
     let hasNext = 0;
-    let lists = $(resBody).find('.list_article').children();
+    let lists = $(resBody).find('#list_article').children();
 
     if (lists.length > 0) {
         hasNext = 1;
