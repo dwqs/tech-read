@@ -16,6 +16,6 @@ npm start
 
 After that, open `127.0.0.1:9000` with your browser. I recommend you use chrome latest for the best experience.
 
-###License
+### License
 
 MIT
