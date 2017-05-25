@@ -8,7 +8,7 @@ let $ = require('cheerio');
 
 exports.parseList = function (lists) {
     let origin = 'https://segmentfault.com';
-    
+
     let sgLists = lists.map((index, list) => {
         let titleObj = $(list).find('.title a');
         let title = titleObj.text();
@@ -18,7 +18,7 @@ exports.parseList = function (lists) {
         let avatarUrl = $(list).find('.author img').attr('src');
         let a = $(list).find('.author a')[1];
         let subjectUrl = origin + a.attribs.href;
-        let subjectText = a.children[0].data;
+        let subjectText = $(a).text();
 
         return {
             listTitle:title,

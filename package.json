@@ -5,8 +5,8 @@
   "version": "2.0.1",
   "scripts": {
     "build": "./node_modules/.bin/webpack --progress",
-    "dev-build": "webpack --config ./config/webpack.config.js -w --progress --display-error-details",
-    "pro-build": "webpack --config ./config/webpack.config.js --progress --display-error-details",
+    "dev-build": "./node_modules/.bin/webpack --config ./config/webpack.config.js -w --progress --display-error-details",
+    "pro-build": "./node_modules/.bin/webpack --config ./config/webpack.config.js --progress --display-error-details",
     "start": "NODE_ENV=development node --harmony ./server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
